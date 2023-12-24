@@ -1,9 +1,15 @@
 package com.photo.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
+import java.util.List;
+
+@Getter
+@Setter
+@Document("users")
 public class User {
 
     @Id
@@ -11,13 +17,10 @@ public class User {
 
     private String username;
     private String s3ImageUrl;
-
-    // Getters and setters
-    public void setS3ImageUrl(String fileUrl) {
+    public User(String id, String username, String s3ImageUrl) {
+        super();
+        this.id = id;
+        this.username = username;
         this.s3ImageUrl = s3ImageUrl;
-    }
-
-    public String getS3ImageUrl() {
-        return s3ImageUrl;
     }
 }
