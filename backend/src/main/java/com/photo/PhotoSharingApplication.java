@@ -18,8 +18,7 @@ public class PhotoSharingApplication {
 		Map<String, Object> env = Dotenv.load()
 				.entries()
 				.stream()
-				.collect(
-						Collectors.toMap(DotenvEntry::getKey, DotenvEntry::getValue));
+				.collect(Collectors.toMap(DotenvEntry::getKey, DotenvEntry::getValue));
 		new SpringApplicationBuilder(PhotoSharingApplication.class)
 				.environment(new StandardEnvironment() {
 					@Override
