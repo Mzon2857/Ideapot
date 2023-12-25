@@ -35,7 +35,7 @@ public class UserController {
         String eTag = s3Service.uploadFile(s3Key, file);
 
         User user = userService.getUserById(userId);
-        user.setS3ImageUrl(s3Service.getFileUrl(s3Key));
+        user.getS3ImageUrls().add(s3Service.getFileUrl(s3Key));
         userService.updateUser(user);
 
         return "Image uploaded successfully. ETag: " + eTag;
