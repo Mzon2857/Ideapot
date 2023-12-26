@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/upload-image")
-    public String uploadImage(@PathVariable String userId, @RequestParam("file") MultipartFile file) throws IOException {
+    public String uploadImage(@PathVariable Long userId, @RequestParam("file") MultipartFile file) throws IOException {
         // Save file to AWS S3
         String s3Key = "user-images/" + userId + "/" + file.getOriginalFilename();
         String eTag = s3Service.uploadFile(s3Key, file);
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/get-image-url")
-    public String getImageUrl(@PathVariable String userId) {
+    public String getImageUrl(@PathVariable Long userId) {
         // Retrieve S3 URL from MongoDB
         User user = userService.getUserById(userId);
         return user.getS3ImageUrl();

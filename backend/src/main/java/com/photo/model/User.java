@@ -2,29 +2,37 @@ package com.photo.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Document("users")
+@Entity
+@Table(name = "users")
 public class User {
 
+    @jakarta.persistence.Id
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String username;
     private String s3ImageUrl;
-    private List<String> s3ImageUrls;
 
-    public User(String id, String username, String s3ImageUrl) {
-        super();
-        this.id = id;
+    @ElementCollection
+    @CollectionTable(name = "user_s3_image_urls", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "s3_image_url")
+    private List<String> s3ImageUrls = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(Long id, String username, String s3ImageUrl) {
         this.username = username;
         this.s3ImageUrl = s3ImageUrl;
-        this.s3ImageUrls = new ArrayList<>();
+        this.id = id;
     }
 }
