@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import './App.css';
 import configData from "./config.json";
 
-function App() {
+const App: React.FC = () => {
   const {
     isLoading,
     error,
@@ -15,7 +15,12 @@ function App() {
     logout,
   } = useAuth0();
 
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = window.location.origin;
+  };
 
   useEffect(() => {
     const getAccessToken = async () => {
@@ -26,7 +31,9 @@ function App() {
         });
         setAccessToken(token);
       } catch (e) {
-        console.log(e.message);
+        if (e instanceof Error) {
+          console.log(e.message);
+        }
       }
     };
 
@@ -55,22 +62,21 @@ function App() {
           <p>
             <code>React</code>
           </p>
-          <button onClick={loginWithRedirect}>Log In</button>
+          <button onClick={() => loginWithRedirect()}>Log In</button>
         </header>
       </div>
     );
   }
 
-  // User is authenticated
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Hi {user.email}, You have successfully logged in.</p>
+        <p>Hi {user?.email}, You have successfully logged in.</p>
 
         <button onClick={securedAPITest}>Test Private API</button>
 
-        <button onClick={() => logout({ returnTo: window.location.origin })}>
+        <button onClick={handleLogout}>
           Log Out
         </button>
       </header>
