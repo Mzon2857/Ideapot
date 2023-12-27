@@ -10,9 +10,9 @@ const container = document.getElementById('root');
 const root = createRoot(container!); 
 
 const providerConfig = {
-  domain: configData.domain,
-  clientId: configData.clientId,
-  audience: configData.audience,
+  domain: process.env.REACT_APP_AUTH0_DOMAIN!,
+  clientId: process.env.REACT_APP_AUTH0_CLIENT_ID!,
+  audience: process.env.REACT_APP_AUTH0_AUDIENCE!,
   redirectUri: window.location.origin,
   useRefreshTokens: true,
   cacheLocation: "localstorage" as const
