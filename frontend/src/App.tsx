@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import { useAuth0 } from "@auth0/auth0-react";
 import './App.css';
-import configData from "./config.json";
 
 const App: React.FC = () => {
   const {
@@ -26,8 +25,8 @@ const App: React.FC = () => {
     const getAccessToken = async () => {
       try {
         const token = await getAccessTokenSilently({
-          audience: configData.audience,
-          scope: configData.scope,
+          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+          scope: import.meta.env.VITE_AUTH0_SCOPE,
         });
         setAccessToken(token);
       } catch (e) {
