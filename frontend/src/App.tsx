@@ -36,10 +36,32 @@ const App: React.FC = () => {
       }
     };
 
+    const userBody = JSON.stringify(user);
+    console.log(userBody);
+
+    const postUser = async () =>{
+      if (isAuthenticated && user){
+        try {
+          const token = await getAccessTokenSilently();
+          await fetch("http://localhost:8080/api/users/create", {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(user),
+          });
+        } catch (error){
+          console.log('Error posting user to backend: ', error);
+        }
+      }
+    }
+
     if (isAuthenticated) {
       getAccessToken();
+      postUser();
     }
-  }, [getAccessTokenSilently, isAuthenticated]);
+  }, [getAccessTokenSilently, isAuthenticated, user]);
 
   const securedAPITest = async () => {
     console.log("Testing API");

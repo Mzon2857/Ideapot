@@ -19,9 +19,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
-    private String profileS3ImageUrl;
+    @Column(name = "given_name")
+    private String givenName;
 
+    private String nickname;
+
+    @Column(name = "full_name")
+    private String name;
+
+    private String email;
+
+    @Column(name = "email_verified")
+    private boolean emailVerified;
+
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
+
+    
     @ElementCollection
     @CollectionTable(name = "user_s3_image_urls", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "s3_image_url")
@@ -33,9 +47,9 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String username, String s3ImageUrl) {
-        this.username = username;
-        this.profileS3ImageUrl = s3ImageUrl;
+    public User(Long id, String givenName, String profilePictureUrl) {
         this.id = id;
+        this.givenName = givenName;
+        this.profilePictureUrl = profilePictureUrl;
     }
 }
