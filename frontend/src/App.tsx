@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import { useAuth0 } from "@auth0/auth0-react";
 import './App.css';
+import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
+import Main from './pages/Main';
+import UserProfile from './pages/UserProfile';
+import PostCreationTool from './pages/PostCreationTool';
+
 
 const App: React.FC = () => {
   const {
@@ -90,18 +95,13 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hi {user?.email}, You have successfully logged in.</p>
-
-        <button onClick={securedAPITest}>Test Private API</button>
-
-        <button onClick={handleLogout}>
-          Log Out
-        </button>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/post-creation-tool" element={<PostCreationTool />} />
+        <Route path="/:username" element={<UserProfile />} />
+      </Routes>
+    </Router>
   );
 }
 
