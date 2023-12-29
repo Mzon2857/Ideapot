@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import { useAuth0 } from "@auth0/auth0-react";
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Main from './pages/Main';
 import UserProfile from './pages/UserProfile';
 import PostCreationTool from './pages/PostCreationTool';
@@ -20,11 +20,6 @@ const App: React.FC = () => {
   } = useAuth0();
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
-
-  const handleLogout = () => {
-    logout();
-    window.location.href = window.location.origin;
-  };
 
   useEffect(() => {
     const getAccessToken = async () => {
@@ -67,10 +62,6 @@ const App: React.FC = () => {
       postUser();
     }
   }, [getAccessTokenSilently, isAuthenticated, user]);
-
-  const securedAPITest = async () => {
-    console.log("Testing API");
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;
