@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import { useAuth0 } from "@auth0/auth0-react";
-import './App.css';
+import './App.scss';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Main from './pages/Main';
 import UserProfile from './pages/UserProfile';

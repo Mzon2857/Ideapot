@@ -23,7 +23,7 @@ public class ImageService {
         this.s3Service = s3Service;
     }
 
-    public void createImage(Long userId, MultipartFile file) throws IOException {
+    public void createImage(Long userId, MultipartFile file, String title, String description) throws IOException {
         String s3Key = "user-images/" + userId + "/" + file.getOriginalFilename();
         s3Service.uploadFile(s3Key, file);
         String s3Url = s3Service.getFileUrl(s3Key);
@@ -34,6 +34,8 @@ public class ImageService {
         Image image = new Image();
         image.setS3ImageUrl(s3Url);
         image.setUser(user);
+        image.setTitle(title);
+        image.setDescription(description);
 
         imageRepository.save(image);
     }

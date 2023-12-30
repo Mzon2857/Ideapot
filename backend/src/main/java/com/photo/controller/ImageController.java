@@ -25,8 +25,11 @@ public class ImageController {
 
     @PostMapping("/{userId}/upload")
     @ResponseStatus(HttpStatus.CREATED)
-    public String uploadImage(@PathVariable Long userId, @RequestParam("file") MultipartFile file) throws IOException {
-        imageService.createImage(userId, file);
+    public String uploadImage(@PathVariable Long userId,
+                              @RequestParam("file") MultipartFile file,
+                              @RequestParam("title") String title,
+                              @RequestParam("description") String description) throws IOException {
+        imageService.createImage(userId, file, title, description);
         return "Image uploaded successfully.";
     }
 
