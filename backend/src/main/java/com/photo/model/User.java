@@ -35,11 +35,11 @@ public class User {
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
 
-    
-    @ElementCollection
-    @CollectionTable(name = "user_s3_image_urls", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "s3_image_url")
-    private List<String> s3ImageUrls = new ArrayList<>();
+    @Column(name = "locale")
+    private String locale;
+
+    @Column(name = "sub")
+    private String sub;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
@@ -49,7 +49,5 @@ public class User {
 
     public User(Long id, String givenName, String profilePictureUrl) {
         this.id = id;
-        this.givenName = givenName;
-        this.profilePictureUrl = profilePictureUrl;
     }
 }

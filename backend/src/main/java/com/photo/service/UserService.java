@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,7 +21,17 @@ public class UserService {
     }
 
     public User createUser(User newUser) {
-        return userRepository.save(newUser);
+        Optional<User> existingUser = userRepository.findByEmail(newUser.getEmail());
+        if (existingUser.isPresent()) {
+            return existingUser.get();
+        } else {
+            return userRepository.save(newUser);
+        }
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
 
