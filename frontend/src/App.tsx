@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import { useAuth0 } from "@auth0/auth0-react";
 import './App.scss';
+import logo from './assets/react.svg';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Main from './pages/Main';
 import UserProfile from './pages/UserProfile';
 import PostCreationTool from './pages/PostCreationTool/PostCreationTool';
-
+import Discover from './pages/Discover/Discover'
+import Notifications from './pages/Notifications/Notifications';
+import Messages from './pages/Messages/Messages';
 
 const App: React.FC = () => {
   const {
@@ -91,6 +93,9 @@ const App: React.FC = () => {
         <Route path="/" element={<Main />} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
         <Route path="/:username" element={<UserProfile />} />
+        <Route path="/discover" element= {<Discover/>} />
+        <Route path="/notifications" element = {<Notifications />} />
+        <Route path="/messages" element = {<Messages />} />
       </Routes>
     </Router>
   );
