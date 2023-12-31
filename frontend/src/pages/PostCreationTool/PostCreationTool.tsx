@@ -14,7 +14,7 @@ const PostCreationTool: React.FC = () => {
     const fetchUserIdByEmail = async (email: string) =>{
       try{
         const response = await axios.get(`http://localhost:8080/api/users/by-email/${email}`);
-        setUserId(response.data.id);
+        setUserId(response.data);
       } catch (error){
         console.error('Error fetching user id', error)
       }

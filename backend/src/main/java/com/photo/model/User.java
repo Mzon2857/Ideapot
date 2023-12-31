@@ -22,11 +22,13 @@ public class User {
     @Column(name = "given_name")
     private String givenName;
 
+    @Column(name = "nickname")
     private String nickname;
 
     @Column(name = "full_name")
     private String name;
 
+    @Column(name = "email")
     private String email;
 
     @Column(name = "email_verified")
@@ -45,9 +47,5 @@ public class User {
     private List<Image> images = new ArrayList<>();
 
     public User() {
-    }
-
-    public User(Long id, String givenName, String profilePictureUrl) {
-        this.id = id;
     }
 }
