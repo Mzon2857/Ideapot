@@ -11,6 +11,10 @@ const UserProfile: React.FC = () => {
 
   const [images, setImages] = useState([]);
 
+  const handleImageClick = () => {
+    //add image click logic here
+  }
+
   //Retrieves userID from the email attached in auth0 token
   useEffect(() => {
     const fetchUserIdByEmail = async (email: string) => {
@@ -49,14 +53,12 @@ const UserProfile: React.FC = () => {
   return (
     <div className="UserProfile-container">
       <header className="UserProfile-header">
-        <h1>User Profile</h1>
         <img src={user.picture} alt="User" className="UserProfile-picture" />
         <div className="UserProfile-username">{username}</div>
       </header>
-      <hr className="UserProfile-divider" />
       <div className="UserProfile-imageGrid">
         {images.map((img, index) => (
-          <img key={index} src={img} alt={`Gallery ${index}`} className="UserProfile-image" />
+          <img key={index} src={img} alt={`Gallery ${index}`} onClick={handleImageClick} className="UserProfile-image" />
         ))}
       </div>
     </div>
