@@ -8,21 +8,6 @@ $box-width: 400px;
 $box-height: 300px; 
 $text-input-width: 500px;
 $focus-color: #87CEEB;
-
-.App {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.App-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
 .upload-box {
   width: $box-width;
   height: $box-height;

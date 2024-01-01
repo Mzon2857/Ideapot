@@ -10,6 +10,7 @@ const PostCreationTool: React.FC = () => {
   const [description, setDescription] = useState('');
   const {user} = useAuth0();
 
+  //Retrieves userID from the email attached in auth0 token
   useEffect(() => {
     const fetchUserIdByEmail = async (email: string) =>{
       try{
@@ -25,6 +26,8 @@ const PostCreationTool: React.FC = () => {
     }
   }, [user]);
 
+
+  //File upload helpers
   const handleFileChange = (event: { target: { files: React.SetStateAction<null>[]; }; }) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -52,6 +55,8 @@ const PostCreationTool: React.FC = () => {
     }
   };
 
+
+  //Description box scaling
   const imagePreview = selectedFile ? URL.createObjectURL(selectedFile) : null;
 
   const textAreaRef = useRef(null);

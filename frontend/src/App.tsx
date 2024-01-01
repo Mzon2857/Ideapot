@@ -3,8 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import './App.scss';
 import logo from './assets/react.svg';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Main from './pages/Main';
-import UserProfile from './pages/UserProfile';
+import Home from './pages/Home.tsx'
+import UserProfile from './pages/UserProfile/UserProfile';
 import PostCreationTool from './pages/PostCreationTool/PostCreationTool';
 import Discover from './pages/Discover/Discover'
 import Notifications from './pages/Notifications/Notifications';
@@ -37,9 +37,6 @@ const App: React.FC = () => {
         }
       }
     };
-
-    const userBody = JSON.stringify(user);
-    console.log(userBody);
 
     const postUser = async () =>{
       if (isAuthenticated && user){
@@ -90,7 +87,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<Home />} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
         <Route path="/:username" element={<UserProfile />} />
         <Route path="/discover" element= {<Discover/>} />

@@ -28,6 +28,7 @@ public class S3Service {
             PutObjectRequest request = PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(key)
+                    .contentType(file.getContentType())
                     .build();
             PutObjectResponse response = s3Client.putObject(request,
                     RequestBody.fromInputStream(fileContent, file.getSize()));
