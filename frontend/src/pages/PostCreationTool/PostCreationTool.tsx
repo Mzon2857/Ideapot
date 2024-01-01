@@ -3,11 +3,20 @@ import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 import './postCreationTool.scss'
 
+interface IFileChangeEvent {
+  target: { files: FileList };
+}
+
+interface ITextChangeEvent {
+  target: { value: string };
+}
+
+
 const PostCreationTool: React.FC = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [userId, setUserId] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [userId, setUserId] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const {user} = useAuth0();
 
   //Retrieves userID from the email attached in auth0 token
@@ -28,7 +37,7 @@ const PostCreationTool: React.FC = () => {
 
 
   //File upload helpers
-  const handleFileChange = (event: { target: { files: React.SetStateAction<null>[]; }; }) => {
+  const handleFileChange = (event: IFileChangeEvent) => {
     setSelectedFile(event.target.files[0]);
   };
 
@@ -59,10 +68,11 @@ const PostCreationTool: React.FC = () => {
   //Description box scaling
   const imagePreview = selectedFile ? URL.createObjectURL(selectedFile) : null;
 
-  const textAreaRef = useRef(null);
-  const textArea = textAreaRef.current;
-  const handleTextAreaChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    textArea.style.height = textArea.scrollHeight + 'px';
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const handleTextAreaChange = (event: ITextChangeEvent) => {
+    if (textAreaRef.current){
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
+    }
     setDescription(event.target.value)
   };
 
