@@ -9,5 +9,8 @@ import java.util.List;
 public interface ImageRepository extends JpaRepository<Image, Long> {
     @Query("SELECT i.s3ImageUrl FROM Image i WHERE i.user.id = :userId")
     List<String> findImageUrlByUserId(Long userId);
+
+    @Query("SELECT i FROM Image i WHERE i.user.id = :userId")
+    List<Image> findImagesByUserId(Long userId);
 }
 

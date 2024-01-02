@@ -1,15 +1,22 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./userProfile.scss";
 import axios from "axios";
+
+interface Image {
+  id: number;
+  s3ImageUrl: string;
+  title: string;
+  description: string;
+}
 
 const UserProfile: React.FC = () => {
   let { username } = useParams<{ username: string }>();
   const { user } = useAuth0();
   const [userId, setUserId] = useState("");
 
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<Image[]>([]);
 
   const handleImageClick = () => {
     //add image click logic here
@@ -38,7 +45,7 @@ const UserProfile: React.FC = () => {
       if (userId) {
         try {
           const response = await fetch(
-            `http://localhost:8080/api/images/${userId}/get-url`
+            `http://localhost:8080/api/images/${userId}/get-images`
           );
           const data = await response.json();
           setImages(data);
@@ -58,7 +65,9 @@ const UserProfile: React.FC = () => {
       </header>
       <div className="UserProfile-imageGrid">
         {images.map((img, index) => (
-          <img key={index} src={img} alt={`Gallery ${index}`} onClick={handleImageClick} className="UserProfile-image" />
+          <Link to={`/images/${img.id}`} key={img.id}>
+            <img key={index} src={img.s3ImageUrl} alt={`Gallery ${index}`} onClick={handleImageClick} className="UserProfile-image" />
+          </Link>
         ))}
       </div>
     </div>

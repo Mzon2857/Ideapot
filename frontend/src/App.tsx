@@ -9,6 +9,7 @@ import PostCreationTool from './pages/PostCreationTool/PostCreationTool';
 import Discover from './pages/Discover/Discover'
 import Notifications from './pages/Notifications/Notifications';
 import Messages from './pages/Messages/Messages';
+import ImageDetail from './pages/ImageDetail/ImageDetail.tsx';
 
 const App: React.FC = () => {
   const {
@@ -93,6 +94,7 @@ const App: React.FC = () => {
         <Route path="/discover" element= {<Discover/>} />
         <Route path="/notifications" element = {<Notifications />} />
         <Route path="/messages" element = {<Messages />} />
+        <Route path="/images/:imageId" element={<ImageDetail />} />
       </Routes>
     </Router>
   );

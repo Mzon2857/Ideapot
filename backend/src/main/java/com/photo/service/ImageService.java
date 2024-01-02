@@ -1,5 +1,6 @@
 package com.photo.service;
 
+import com.photo.DTO.ImageDTO;
 import com.photo.model.Image;
 import com.photo.model.User;
 import com.photo.repository.ImageRepository;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageService {
@@ -42,5 +44,19 @@ public class ImageService {
 
     public List<String> getImageUrlByUserId(Long userId) {
         return imageRepository.findImageUrlByUserId(userId);
+    }
+
+    public List<ImageDTO> getImagesByUserId(Long userId) {
+        List<Image> images = imageRepository.findImagesByUserId(userId);
+        return images.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private ImageDTO convertToDto(Image image) {
+        ImageDTO dto = new ImageDTO();
+        dto.setId(image.getId());
+        dto.setS3ImageUrl(image.getS3ImageUrl());
+        dto.setTitle(image.getTitle());
+        dto.setDescription(image.getDescription());
+        return dto;
     }
 }

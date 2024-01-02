@@ -1,5 +1,7 @@
 package com.photo.controller;
 
+import com.photo.DTO.ImageDTO;
+import com.photo.model.Image;
 import com.photo.service.ImageService;
 import com.photo.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,10 @@ public class ImageController {
     @GetMapping("/{userId}/get-url")
     public List<String> getImageUrl(@PathVariable Long userId) {
         return imageService.getImageUrlByUserId(userId);
+    }
+
+    @GetMapping("/{userId}/get-images")
+    public List<ImageDTO> getImages(@PathVariable Long userId){
+        return imageService.getImagesByUserId(userId);
     }
 }
