@@ -9,26 +9,7 @@ interface Image {
   description: string;
 }
 
-const ImageGrid = ({ userId }) => {
-  const [images, setImages] = useState<Image[]>([]);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      if (userId) {
-        try {
-          const response = await fetch(
-            `http://localhost:8080/api/images/${userId}/get-images`
-          );
-          const data = await response.json();
-          setImages(data);
-        } catch (error) {
-          console.error("Error fetching images:", error);
-        }
-      }
-    };
-    fetchImages();
-  }, [userId]);
-
+const ImageGrid = ({ images }) => {
   return (
     <div className="ImageGrid-container ">
       {images.map((img, index) => (
