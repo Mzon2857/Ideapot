@@ -1,5 +1,6 @@
 package com.photo.controller;
 
+import com.photo.DTO.UserDTO;
 import com.photo.model.User;
 import com.photo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,15 @@ public class UserController {
         return "User created successfully with ID: " + createdUser.getId();
     }
 
+    @GetMapping("/by-nickname/{nickname}")
+    public UserDTO getUserByUsername(@PathVariable String nickname){
+        User user = userService.getUserByNickname(nickname);
+        return UserDTO.builder()
+                .username(user.getNickname())
+                .picture(user.getPicture())
+                .id(user.getId())
+                .build();
+    }
 
     @GetMapping("/by-email/{email}")
     public Long getUserIdByEmail(@PathVariable String email) {

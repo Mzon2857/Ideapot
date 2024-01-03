@@ -12,36 +12,40 @@ interface Image {
   description: string;
 }
 
+interface User {
+  id: number;
+  username: string;
+  picture: string;
+}
+
 const UserProfile: React.FC = () => {
   let { username } = useParams<{ username: string }>();
-  const { user } = useAuth0();
-  const [userId, setUserId] = useState("");
+  const [user, setUser] = useState<User>();
   const [images, setImages] = useState<Image[]>([]);
   
   //Retrieves userID from the email attached in auth0 token
   useEffect(() => {
-    const fetchUserIdByEmail = async (email: string) => {
+    const fetchUserIdByUsername = async (username: string) => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/users/by-email/${email}`
+          `http://localhost:8080/api/users/by-nickname/${username}`
         );
-        setUserId(response.data);
+        setUser(response.data);
+        console.log(user);
       } catch (error) {
         console.error("Error fetching user id", error);
       }
     };
 
-    if (user && user.email) {
-      fetchUserIdByEmail(user.email);
-    }
-  }, [user]);
+    fetchUserIdByUsername(username);
+  }, []);
 
   useEffect(() => {
     const fetchImages = async () => {
-      if (userId) {
+      if (user?.id) {
         try {
           const response = await fetch(
-            `http://localhost:8080/api/images/${userId}/get-images`
+            `http://localhost:8080/api/images/${user.id}/get-images`
           );
           const data = await response.json();
           setImages(data);
@@ -51,15 +55,19 @@ const UserProfile: React.FC = () => {
       }
     };
     fetchImages();
-  }, [userId]);
+  }, [user]);
 
   return (
     <div className="UserProfile-container">
-      <header className="UserProfile-header">
-        <img src={user.picture} alt="User" className="UserProfile-picture" />
-        <div className="UserProfile-username">{username}</div>
-      </header>
-      <ImageGrid images={images}/>
+      {user && (
+        <>
+        <header className="UserProfile-header">
+          <img src={user.picture} alt="User" className="UserProfile-picture" />
+          <div className="UserProfile-username">{username}</div>
+        </header>
+        <ImageGrid images={images}/>
+        </>
+      )}
     </div>
   );
 };
