@@ -34,8 +34,8 @@ public class User {
     @Column(name = "email_verified")
     private boolean emailVerified;
 
-    @Column(name = "profile_picture_url")
-    private String profilePictureUrl;
+    @Column(name = "picture")
+    private String picture;
 
     @Column(name = "locale")
     private String locale;

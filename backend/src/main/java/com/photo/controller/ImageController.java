@@ -44,4 +44,9 @@ public class ImageController {
     public List<ImageDTO> getImages(@PathVariable Long userId){
         return imageService.getImagesByUserId(userId);
     }
+
+    @GetMapping("/get-image/{imageId}")
+    public ImageDTO getImage(@PathVariable Long imageId){
+        return imageService.getImageById(imageId);
+    }
 }

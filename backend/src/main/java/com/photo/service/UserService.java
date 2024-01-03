@@ -1,8 +1,10 @@
 package com.photo.service;
 
+import com.photo.DTO.UserDTO;
 import com.photo.model.Image;
 import com.photo.model.User;
 import com.photo.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,14 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    public UserDTO getUserInfoById(Long id) {
+        return userRepository.findById(id)
+                .map(user -> UserDTO.builder()
+                        .username(user.getNickname())
+                        .picture(user.getPicture())
+                        .build())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+    }
 
     public User updateUser(User user) {
         return userRepository.save(user);

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./userProfile.scss";
 import axios from "axios";
+import ImageGrid from "../../components/ImageGrid/ImageGrid";
 
 interface Image {
   id: number;
@@ -40,36 +41,13 @@ const UserProfile: React.FC = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      if (userId) {
-        try {
-          const response = await fetch(
-            `http://localhost:8080/api/images/${userId}/get-images`
-          );
-          const data = await response.json();
-          setImages(data);
-        } catch (error) {
-          console.error("Error fetching images:", error);
-        }
-      }
-    };
-    fetchImages();
-  }, [userId]);
-
   return (
     <div className="UserProfile-container">
       <header className="UserProfile-header">
         <img src={user.picture} alt="User" className="UserProfile-picture" />
         <div className="UserProfile-username">{username}</div>
       </header>
-      <div className="UserProfile-imageGrid">
-        {images.map((img, index) => (
-          <Link to={`/images/${img.id}`} key={img.id}>
-            <img key={index} src={img.s3ImageUrl} alt={`Gallery ${index}`} onClick={handleImageClick} className="UserProfile-image" />
-          </Link>
-        ))}
-      </div>
+      <ImageGrid userId={userId}/>
     </div>
   );
 };

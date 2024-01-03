@@ -10,4 +10,5 @@ public class ImageDTO {
     private String s3ImageUrl;
     private String title;
     private String description;
+    private UserDTO posterInfo;
 }
