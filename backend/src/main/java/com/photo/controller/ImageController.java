@@ -45,6 +45,11 @@ public class ImageController {
         return imageService.getImagesByUserId(userId);
     }
 
+    @GetMapping("/get-feed")
+    public List<ImageDTO> getFeed(){
+        return imageService.getFeed();
+    }
+
     @GetMapping("/get-image/{imageId}")
     public ImageDTO getImage(@PathVariable Long imageId){
         return imageService.getImageById(imageId);
