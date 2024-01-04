@@ -1,0 +1,65 @@
+$grey  : #7b7676;
+$purple : rgb(142, 29, 191);
+// Define basic colors and fonts
+$primary-color: #333; // Black color for text
+$highlight-color: #d3d3d3; // Grey for highlights
+$background-color: #fff; // White background
+$font-color: $primary-color; // Use primary color for font
+$font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+
+.Navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: $purple;
+    padding: 15px 7%
+}
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 10px 20px;
+    border-radius: 50px;
+}
+.search-box input {
+    padding: 5px;
+    background: transparent;
+    border:0;
+    outline:0;
+    font-size: 15px;
+    max-width: 500px;
+}
+.logo{
+    width: 160px;
+    cursor: pointer;
+}
+
+ul {
+    flex: 1;
+    list-style: none;
+    text-align: left;
+}
+ul li {
+    display: inline-block;
+    margin: 10px 0px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    background-color: $highlight-color;
+    color: $font-color;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: darken($highlight-color, 10%);
+    }
+  }
