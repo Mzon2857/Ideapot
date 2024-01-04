@@ -5,6 +5,7 @@ import com.photo.model.Image;
 import com.photo.model.User;
 import com.photo.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +57,12 @@ public class ImageService {
     public ImageDTO getImageById(Long imageId) {
         Image image = imageRepository.findImageById(imageId);
         return convertToDto(image);
+    }
+
+    public List<ImageDTO> getFeed() {
+        int limit = 50;
+        List<Image> images = imageRepository.findImagesWithLimit(limit);
+        return images.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     private ImageDTO convertToDto(Image image) {

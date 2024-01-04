@@ -36,6 +36,11 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    public User getUserByNickname(String nickname){
+        return userRepository.findByNickname(nickname)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
     public UserDTO getUserInfoById(Long id) {
         return userRepository.findById(id)
                 .map(user -> UserDTO.builder()
