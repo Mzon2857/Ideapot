@@ -1,37 +1,60 @@
 $grey  : #7b7676;
-$purple : rgb(142, 29, 191);
+$white : #ffffff;
+$navcolor : rgb(44, 102, 197);
 // Define basic colors and fonts
-$primary-color: #333; // Black color for text
+$primary-color: #6522d0; // Black color for text
 $highlight-color: #d3d3d3; // Grey for highlights
 $background-color: #fff; // White background
 $font-color: $primary-color; // Use primary color for font
 $font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 
 .Navbar {
+    display: flex;
+    position: fixed;
+    top: 0;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: $purple;
+    background: $navcolor;
     padding: 15px 7%
 }
+.movedRight {
+    margin-left: auto;
+    list-style: none;
+    flex: initial; 
+}
+.movedRight img {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.movedRight li {
+    margin-right: 15px;
+    display: inline-block;
+}
+
 .search-box {
     display: flex;
     align-items: center;
-    background: #ffffff;
-    padding: 10px 20px;
+    background: $white;
+    padding: 7px 20px;
     border-radius: 50px;
 }
+.search-box img {
+    max-height: 25px; 
+    max-width: 25px;
+}
 .search-box input {
-    padding: 5px;
+    padding: 6px;
     background: transparent;
     border:0;
     outline:0;
     font-size: 15px;
-    max-width: 500px;
+    max-width: 10;
 }
 .logo{
-    width: 160px;
+    width: 200px;
     cursor: pointer;
 }
 
@@ -41,6 +64,7 @@ ul {
     text-align: left;
 }
 ul li {
+    vertical-align: middle; 
     display: inline-block;
     margin: 10px 0px;
     font-size: 18px;

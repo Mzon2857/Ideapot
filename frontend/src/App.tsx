@@ -10,6 +10,7 @@ import Discover from './pages/Discover/Discover'
 import Notifications from './pages/Notifications/Notifications';
 import Messages from './pages/Messages/Messages';
 import ImageDetail from './pages/ImageDetail/ImageDetail.tsx';
+import Navbar from './components/Navbar/Navbar.tsx'
 
 const App: React.FC = () => {
   const {
@@ -87,6 +88,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
+      <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
