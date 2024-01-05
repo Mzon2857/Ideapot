@@ -4,13 +4,19 @@ import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import Notifications from "../../pages/Notifications/Notifications";
 import Messages from "../../pages/Messages/Messages";
+import logo from "../../ithenaLogo.png"
+import search from "../../search.png"
+import messages from "../../messageImg.png"
+import notifications from "../../bell.png"
+
 const Navbar: React.FC = () => {
   const { user } = useAuth0();
 
   return (
     <nav className="Navbar">
-      <img src="{logo}" alt="{logo}" className="logo" />
-
+      <Link to="/">
+        <img src={logo} alt="Logo" className="logo" style={{ maxWidth: '80px', maxHeight: '100px' }} />
+      </Link>
       <ul>
         <li>
           <Link to="/discover">
@@ -26,21 +32,30 @@ const Navbar: React.FC = () => {
         </li>
         <li>
         <div className="search-box">
+          <img src={search} alt=""/>
           <input type="text" placeholder="Search" />
-          <img src="" alt="" />
         </div>
         </li>
       </ul>
 
-      <Link to={`/${user?.nickname}`}>
-        <button>{user?.given_name}</button>
-      </Link>
+
+      <ul className = "movedRight">
+        <li>
       <Link to='/messages'>
-        <button>Messages</button>
+        <img src = {messages} alt =""/>
       </Link>
-      <Link to='/notifications'>
-        <button>Notifications</button>
+        </li>
+        <li>
+        <Link to='/notifications'>
+          <img src = {notifications} alt = ""/>
+        </Link>
+        </li>
+        <li>
+      <Link to={`/${user?.nickname}`}>
+        <img src = {user?.picture} alt = ""/>      
       </Link>
+      </li>
+      </ul>
     </nav>
   );
 };
