@@ -10,5 +10,7 @@ public class ImageDTO {
     private String s3ImageUrl;
     private String title;
     private String description;
+    private Long likes;
+    private Boolean UserLiked;
     private UserDTO posterInfo;
 }

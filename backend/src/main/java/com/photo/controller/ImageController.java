@@ -1,11 +1,13 @@
 package com.photo.controller;
 
 import com.photo.DTO.ImageDTO;
+import com.photo.DTO.LikeDTO;
 import com.photo.model.Image;
 import com.photo.service.ImageService;
 import com.photo.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,7 +54,24 @@ public class ImageController {
     }
 
     @GetMapping("/get-image/{imageId}")
-    public ImageDTO getImage(@PathVariable Long imageId){
-        return imageService.getImageById(imageId);
+    public ImageDTO getImage(@PathVariable Long imageId, @RequestParam Long userId){
+        return imageService.getImageById(imageId, userId);
+    }
+
+    @PostMapping("/{imageId}/like")
+    public ResponseEntity<?> likeImage(@RequestBody LikeDTO likeRequest) {
+        imageService.likeImage(likeRequest.getUserId(), likeRequest.getImageId());
+        return ResponseEntity.ok("Image liked successfully");
+    }
+
+    @PostMapping("/{imageId}/unlike")
+    public ResponseEntity<?> unlikeImage(@RequestBody LikeDTO likeRequest) {
+        imageService.unlikeImage(likeRequest.getUserId(), likeRequest.getImageId());
+        return ResponseEntity.ok("Image unliked successfully");
+    }
+
+    @GetMapping("/{imageId}/hasLiked")
+    public Boolean hasUserLikedImage(@PathVariable Long imageId, @RequestParam Long userId) {
+        return imageService.hasUserLikedImage(imageId, userId);
     }
 }

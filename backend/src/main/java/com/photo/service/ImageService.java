@@ -2,8 +2,11 @@ package com.photo.service;
 
 import com.photo.DTO.ImageDTO;
 import com.photo.model.Image;
+import com.photo.model.Like;
 import com.photo.model.User;
 import com.photo.repository.ImageRepository;
+import com.photo.repository.LikeRepository;
+import com.photo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,17 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
     private final S3Service s3Service;
 
     @Autowired
-    public ImageService(ImageRepository imageRepository, S3Service s3Service, UserService userService) {
+    public ImageService(ImageRepository imageRepository, S3Service s3Service, UserService userService, UserRepository userRepository, LikeRepository likeRepository) {
         this.imageRepository = imageRepository;
         this.s3Service = s3Service;
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.likeRepository = likeRepository;
     }
 
     public void createImage(Long userId, MultipartFile file, String title, String description) throws IOException {
@@ -54,10 +61,13 @@ public class ImageService {
         return images.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    public ImageDTO getImageById(Long imageId) {
-        Image image = imageRepository.findImageById(imageId);
-        return convertToDto(image);
+    public ImageDTO getImageById(Long imageId, Long userId) {
+        Image image = imageRepository.findById(imageId).orElseThrow();
+        ImageDTO dto = convertToDto(image);
+        dto.setUserLiked(likeRepository.existsByUserIdAndImageId(userId, imageId));
+        return dto;
     }
+
 
     public List<ImageDTO> getFeed() {
         int limit = 50;
@@ -71,7 +81,36 @@ public class ImageService {
         dto.setS3ImageUrl(image.getS3ImageUrl());
         dto.setTitle(image.getTitle());
         dto.setDescription(image.getDescription());
+        dto.setLikes(image.getLikesCount());
         dto.setPosterInfo(userService.getUserInfoById(image.getUser().getId()));
         return dto;
+    }
+
+    public void likeImage(Long userId, Long imageId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        Image image = imageRepository.findById(imageId).orElseThrow();
+
+        image.setLikesCount(image.getLikesCount() + 1);
+        imageRepository.save(image);
+
+        Like like = new Like();
+        like.setUser(user);
+        like.setImage(image);
+
+        likeRepository.save(like);
+    }
+
+    public void unlikeImage(Long userId, Long imageId){
+        Image image = imageRepository.findById(imageId).orElseThrow();
+
+        image.setLikesCount(image.getLikesCount() - 1);
+        imageRepository.save(image);
+
+        likeRepository.findByUserIdAndImageId(userId, imageId)
+                .ifPresent(likeRepository::delete);
+    }
+
+    public Boolean hasUserLikedImage(Long imageId, Long userId){
+        return likeRepository.existsByUserIdAndImageId(userId, imageId);
     }
 }

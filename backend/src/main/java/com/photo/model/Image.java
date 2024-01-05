@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -18,6 +21,12 @@ public class Image {
     private String s3ImageUrl;
     private String description;
     private String title;
+
+    @Column(name = "likes_count", nullable = false, columnDefinition = "integer default 0")
+    private long likesCount = 0;
+
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
