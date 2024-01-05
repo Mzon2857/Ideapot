@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ImageGrid from "../../components/ImageGrid/ImageGrid";
+import { useAuthAxios } from "../../config/axiosConfig";
 
 interface Image {
   id: number;
@@ -11,14 +12,15 @@ interface Image {
 function Discover() {
   const [images, setImages] = useState<Image[]>([]);
 
+  const authAxios = useAuthAxios();
+
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:8080/api/images/get-feed'
+        const response = await authAxios.get(
+          '/images/get-feed'
         );
-        const data = await response.json();
-        setImages(data);
+        setImages(response.data);
       } catch (error) {
         console.error("Error fetching images:", error);
       }

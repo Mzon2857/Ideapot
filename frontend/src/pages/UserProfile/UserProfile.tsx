@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import "./userProfile.scss";
 import axios from "axios";
 import ImageGrid from "../../components/ImageGrid/ImageGrid";
+import { useAuthAxios } from "../../config/axiosConfig";
 
 interface Image {
   id: number;
@@ -22,16 +23,17 @@ const UserProfile: React.FC = () => {
   let { username } = useParams<{ username: string }>();
   const [user, setUser] = useState<User>();
   const [images, setImages] = useState<Image[]>([]);
+
+  const authAxios = useAuthAxios();
   
   //Retrieves userID from the email attached in auth0 token
   useEffect(() => {
     const fetchUserIdByUsername = async (username: string) => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/users/by-nickname/${username}`
+        const response = await authAxios.get(
+          `/users/by-nickname/${username}`
         );
         setUser(response.data);
-        console.log(user);
       } catch (error) {
         console.error("Error fetching user id", error);
       }
@@ -44,11 +46,10 @@ const UserProfile: React.FC = () => {
     const fetchImages = async () => {
       if (user?.id) {
         try {
-          const response = await fetch(
-            `http://localhost:8080/api/images/${user.id}/get-images`
+          const response = await authAxios.get(
+            `/images/${user.id}/get-images`
           );
-          const data = await response.json();
-          setImages(data);
+          setImages(response.data);
         } catch (error) {
           console.error("Error fetching images:", error);
         }

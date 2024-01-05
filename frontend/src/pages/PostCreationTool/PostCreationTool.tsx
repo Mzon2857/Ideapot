@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 import './postCreationTool.scss'
+import { useAuthAxios } from '../../config/axiosConfig';
 
 interface IFileChangeEvent {
   target: { files: FileList };
@@ -19,11 +20,13 @@ const PostCreationTool: React.FC = () => {
   const [description, setDescription] = useState<string>('');
   const {user} = useAuth0();
 
+  const authAxios = useAuthAxios();
+
   //Retrieves userID from the email attached in auth0 token
   useEffect(() => {
     const fetchUserIdByEmail = async (email: string) =>{
       try{
-        const response = await axios.get(`http://localhost:8080/api/users/by-email/${email}`);
+        const response = await authAxios.get(`/users/by-email/${email}`);
         setUserId(response.data);
       } catch (error){
         console.error('Error fetching user id', error)
@@ -52,7 +55,7 @@ const PostCreationTool: React.FC = () => {
     formData.append('title', title);
     formData.append('description', description);
     try {
-      const response = await axios.post(`http://localhost:8080/api/images/${userId}/upload`, formData, {
+      const response = await authAxios.post(`/images/${userId}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

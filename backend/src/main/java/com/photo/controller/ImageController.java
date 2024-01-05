@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/images")
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/private/images")
 public class ImageController {
 
     private final ImageService imageService;

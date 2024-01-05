@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link  } from "react-router-dom";
 import "./imageDetail.scss";
+import { useAuthAxios } from "../../config/axiosConfig";
 
 interface PosterInfo {
   username: string;
@@ -19,17 +20,15 @@ const ImageDetail: React.FC = () => {
   const [image, setImage] = useState<ImageData | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const authAxios = useAuthAxios();
+
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/images/get-image/${imageId}`
+        const response = await authAxios.get(
+          `/images/get-image/${imageId}`
         );
-        if (!response.ok) {
-          throw new Error("Image not found.");
-        }
-        const data = await response.json();
-        setImage(data);
+        setImage(response.data);
       } catch (error) {
         console.error("Error fetching image:", error);
       } finally {

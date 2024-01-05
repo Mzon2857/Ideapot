@@ -7,18 +7,16 @@ import { Auth0Provider } from "@auth0/auth0-react";
 const container = document.getElementById('root');
 const root = createRoot(container!); 
 
-const providerConfig = {
-  domain: import.meta.env.VITE_AUTH0_DOMAIN,
-  clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
-  audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-  redirectUri: window.location.origin,
-  useRefreshTokens: true,
-  cacheLocation: "localstorage" as const
-};
-
 root.render(
   <React.StrictMode>
-    <Auth0Provider {...providerConfig}>
+    <Auth0Provider 
+      domain={import.meta.env.VITE_AUTH0_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: import.meta.env.VITE_PUBLIC_AUTH0_AUDIENCE,
+        scope: import.meta.env.VITE_AUTH0_SCOPE
+    }}>
       <App />
     </Auth0Provider>
   </React.StrictMode>

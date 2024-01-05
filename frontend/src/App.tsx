@@ -10,6 +10,7 @@ import Discover from './pages/Discover/Discover'
 import Notifications from './pages/Notifications/Notifications';
 import Messages from './pages/Messages/Messages';
 import ImageDetail from './pages/ImageDetail/ImageDetail.tsx';
+import axios from 'axios';
 
 const App: React.FC = () => {
   const {
@@ -22,45 +23,35 @@ const App: React.FC = () => {
     logout,
   } = useAuth0();
 
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-
   useEffect(() => {
-    const getAccessToken = async () => {
-      try {
-        const token = await getAccessTokenSilently({
-          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-          scope: import.meta.env.VITE_AUTH0_SCOPE,
-        });
-        setAccessToken(token);
-      } catch (e) {
-        if (e instanceof Error) {
-          console.log(e.message);
-        }
-      }
-    };
-
-    const postUser = async () =>{
-      if (isAuthenticated && user){
+    const postUser = async () => {
+      if (isAuthenticated && user) {
         try {
-          const token = await getAccessTokenSilently();
-          await fetch("http://localhost:8080/api/users/create", {
-            method: 'POST',
+          const token = await getAccessTokenSilently({
+            audience: "testapi28588",
+            scope: "openid profile email"
+          });
+
+          console.log("Token:", token);
+
+          const response = await axios.post("http://localhost:8080/api/private/users/create", user, {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-type': 'application/json',
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify(user),
           });
-        } catch (error){
-          console.log('Error posting user to backend: ', error);
+
+          if (response.status != 201) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+        } catch (error) {
+          console.error('Error posting user to backend: ', error);
         }
       }
     }
-
-    if (isAuthenticated) {
-      getAccessToken();
-      postUser();
-    }
+      if (isAuthenticated) {
+        postUser();
+      }
   }, [getAccessTokenSilently, isAuthenticated, user]);
 
   if (isLoading) {
