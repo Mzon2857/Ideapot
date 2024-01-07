@@ -1,7 +1,7 @@
 $size : 60px;
 $border: 1px solid;
 $border-radius : 8px;
-$speed : 8px;
+$speed: 0.8s; 
 
 
 .movedRight {
@@ -64,7 +64,7 @@ $speed : 8px;
     top: 70px;
     width: 220px;
     transform: translateX(-75%);
-    background-color: rgb(92, 89, 89);
+    background-color: rgb(121, 119, 119);
     border: var($border);
     border-radius: $border-radius;//may change
     padding: 1rem;
@@ -92,31 +92,32 @@ $speed : 8px;
     transform: translateX(-150px);
 
 }
+
+.menu-primary-enter {
+    transform: translateX(-150px);
+}
 .menu-primary-enter-active {
     transform: translateX(0%);
-    transition: all var($speed) ease;
-
+    transition: all $speed ease;
 }
+
 .menu-primary-exit {
     position: absolute;
 }
 .menu-primary-exit-active {
     transform: translateX(-110%);
-    transition: all var($speed) ease;
+    transition: all $speed ease;
 }
 
 .menu-secondary-enter {
     transform: translateX(150px);
-
 }
 .menu-secondary-enter-active {
     transform: translateX(0%);
-    transition: all var($speed) ease;
+    transition: all $speed ease;
+}
 
-}
-.menu-secondary-exit {
-}
 .menu-secondary-exit-active {
     transform: translateX(150%);
-    transition: all var($speed) ease;
+    transition: all $speed ease;
 }
