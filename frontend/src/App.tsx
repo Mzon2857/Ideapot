@@ -81,7 +81,7 @@ const App: React.FC = () => {
     <Router>
       <Navbar/>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Discover/>} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
         <Route path="/:username" element={<UserProfile />} />
         <Route path="/discover" element= {<Discover/>} />

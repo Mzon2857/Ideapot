@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx'
 import './styles/index.scss'
 import { Auth0Provider } from "@auth0/auth0-react";
+import Navbar from './components/Navbar/Navbar.tsx';
 
 const container = document.getElementById('root');
 const root = createRoot(container!); 
