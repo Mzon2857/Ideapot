@@ -1,27 +1,27 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
-import Notifications from "../../pages/Notifications/Notifications";
-import Messages from "../../pages/Messages/Messages";
-import logo from "../../ithenaLogo.png"
-import search from "../../search.png"
-import messages from "../../messageImg.png"
-import notifications from "../../bell.png"
+import logoimg from "../../ithenaLogo.png";
+import searchimg from "../../search.png";
+import DropdownList from "../DropdownMenu/DropdownList.tsx";
 
 const Navbar: React.FC = () => {
-  const { user } = useAuth0();
 
   return (
     <nav className="Navbar">
       <Link to="/">
-        <img src={logo} alt="Logo" className="logo" style={{ maxWidth: '80px', maxHeight: '100px' }} />
+        <img
+          src={logoimg}
+          alt="Logo"
+          className="logo"
+          style={{ maxWidth: "80px", maxHeight: "100px" }}
+        />
       </Link>
       <ul>
         <li>
-          <Link to="/discover">
+          <Link to="/">
             <button>
-              <i>Discover</i>
+              <p>Home</p>
             </button>
           </Link>
         </li>
@@ -31,31 +31,15 @@ const Navbar: React.FC = () => {
           </Link>
         </li>
         <li>
-        <div className="search-box">
-          <img src={search} alt=""/>
-          <input type="text" placeholder="Search" />
-        </div>
+          <div className="search-box">
+            <img src={searchimg} alt="" />
+            <input type="text" placeholder="Search" />
+          </div>
         </li>
       </ul>
 
-
-      <ul className = "movedRight">
-        <li>
-      <Link to='/messages'>
-        <img src = {messages} alt =""/>
-      </Link>
-        </li>
-        <li>
-        <Link to='/notifications'>
-          <img src = {notifications} alt = ""/>
-        </Link>
-        </li>
-        <li>
-      <Link to={`/${user?.nickname}`}>
-        <img src = {user?.picture} alt = ""/>      
-      </Link>
-      </li>
-      </ul>
+      <DropdownList />
+      
     </nav>
   );
 };
