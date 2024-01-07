@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import './App.scss';
-import logo from './assets/react.svg';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home.tsx'
-import UserProfile from './pages/UserProfile/UserProfile';
-import PostCreationTool from './pages/PostCreationTool/PostCreationTool';
-import Discover from './pages/Discover/Discover'
-import Notifications from './pages/Notifications/Notifications';
-import Messages from './pages/Messages/Messages';
-import ImageDetail from './pages/ImageDetail/ImageDetail.tsx';
-import Navbar from './components/Navbar/Navbar.tsx'
-import axios from 'axios';
+import "./App.scss";
+import logo from "./assets/react.svg";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home.tsx";
+import UserProfile from "./pages/UserProfile/UserProfile";
+import PostCreationTool from "./pages/PostCreationTool/PostCreationTool";
+import Discover from "./pages/Discover/Discover";
+import Notifications from "./pages/Notifications/Notifications";
+import Messages from "./pages/Messages/Messages";
+import ImageDetail from "./pages/ImageDetail/ImageDetail.tsx";
+import Navbar from "./components/Navbar/Navbar.tsx";
+import axios from "axios";
 
 const App: React.FC = () => {
   const {
@@ -30,29 +30,33 @@ const App: React.FC = () => {
         try {
           const token = await getAccessTokenSilently({
             audience: "testapi28588",
-            scope: "openid profile email"
+            scope: "openid profile email",
           });
 
           console.log("Token:", token);
 
-          const response = await axios.post("http://localhost:8080/api/private/users/create", user, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
+          const response = await axios.post(
+            "http://localhost:8080/api/private/users/create",
+            user,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (response.status != 201) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
         } catch (error) {
-          console.error('Error posting user to backend: ', error);
+          console.error("Error posting user to backend: ", error);
         }
       }
+    };
+    if (isAuthenticated) {
+      postUser();
     }
-      if (isAuthenticated) {
-        postUser();
-      }
   }, [getAccessTokenSilently, isAuthenticated, user]);
 
   if (isLoading) {
@@ -79,18 +83,18 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Navbar/>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Discover/>} />
+        <Route path="/" element={<Discover />} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
         <Route path="/:username" element={<UserProfile />} />
-        <Route path="/discover" element= {<Discover/>} />
-        <Route path="/notifications" element = {<Notifications />} />
-        <Route path="/messages" element = {<Messages />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/messages" element={<Messages />} />
         <Route path="/images/:imageId" element={<ImageDetail />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
