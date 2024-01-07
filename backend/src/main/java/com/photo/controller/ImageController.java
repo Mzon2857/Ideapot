@@ -1,5 +1,6 @@
 package com.photo.controller;
 
+import com.photo.DTO.CommentDTO;
 import com.photo.DTO.ImageDTO;
 import com.photo.DTO.LikeDTO;
 import com.photo.model.Image;
@@ -58,6 +59,8 @@ public class ImageController {
         return imageService.getImageById(imageId, userId);
     }
 
+
+    //Likes
     @PostMapping("/{imageId}/like")
     public ResponseEntity<?> likeImage(@RequestBody LikeDTO likeRequest) {
         imageService.likeImage(likeRequest.getUserId(), likeRequest.getImageId());
@@ -73,5 +76,26 @@ public class ImageController {
     @GetMapping("/{imageId}/hasLiked")
     public Boolean hasUserLikedImage(@PathVariable Long imageId, @RequestParam Long userId) {
         return imageService.hasUserLikedImage(imageId, userId);
+    }
+
+
+    //handling Comments
+    @PostMapping("/{imageId}/comment")
+    public ResponseEntity<?> addComment(@PathVariable Long imageId,
+                                        @RequestBody CommentDTO commentRequest) {
+        imageService.addCommentToImage(commentRequest, imageId);
+        return ResponseEntity.ok("Comment added successfully");
+    }
+
+
+    @GetMapping("/{imageId}/comments")
+    public List<CommentDTO> getComments(@PathVariable Long imageId) {
+        return imageService.getCommentsByImageId(imageId);
+    }
+
+    @DeleteMapping("/delete-comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long commentId) {
+        imageService.deleteComment(commentId);
+        return ResponseEntity.ok("Comment deleted successfully");
     }
 }

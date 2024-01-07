@@ -1,9 +1,13 @@
 package com.photo.service;
 
+import com.photo.DTO.CommentDTO;
 import com.photo.DTO.ImageDTO;
+import com.photo.DTO.UserDTO;
+import com.photo.model.Comment;
 import com.photo.model.Image;
 import com.photo.model.Like;
 import com.photo.model.User;
+import com.photo.repository.CommentRepository;
 import com.photo.repository.ImageRepository;
 import com.photo.repository.LikeRepository;
 import com.photo.repository.UserRepository;
@@ -24,15 +28,17 @@ public class ImageService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
+    private final CommentRepository commentRepository;
     private final S3Service s3Service;
 
     @Autowired
-    public ImageService(ImageRepository imageRepository, S3Service s3Service, UserService userService, UserRepository userRepository, LikeRepository likeRepository) {
+    public ImageService(ImageRepository imageRepository, CommentRepository commentRepository, S3Service s3Service, UserService userService, UserRepository userRepository, LikeRepository likeRepository) {
         this.imageRepository = imageRepository;
         this.s3Service = s3Service;
         this.userService = userService;
         this.userRepository = userRepository;
         this.likeRepository = likeRepository;
+        this.commentRepository = commentRepository;
     }
 
     public void createImage(Long userId, MultipartFile file, String title, String description) throws IOException {
@@ -112,5 +118,48 @@ public class ImageService {
 
     public Boolean hasUserLikedImage(Long imageId, Long userId){
         return likeRepository.existsByUserIdAndImageId(userId, imageId);
+    }
+
+    public void addCommentToImage(CommentDTO commentDTO, Long imageId) {
+        Long userId = commentDTO.getUser().getId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Image image = imageRepository.findById(imageId)
+                .orElseThrow(() -> new RuntimeException("Image not found"));
+
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setImage(image);
+        comment.setText(commentDTO.getText());
+
+        commentRepository.save(comment);
+    }
+
+
+    public List<CommentDTO> getCommentsByImageId(Long imageId) {
+        List<Comment> comments = commentRepository.findByImageId(imageId);
+        return comments.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
+        commentRepository.delete(comment);
+    }
+
+    private CommentDTO convertToDto(Comment comment) {
+        UserDTO userDTO = UserDTO.builder()
+                .id(comment.getUser().getId())
+                .username(comment.getUser().getNickname())
+                .picture(comment.getUser().getPicture())
+                .build();
+
+        CommentDTO dto = new CommentDTO();
+        dto.setId(comment.getId());
+        dto.setUser(userDTO);
+        dto.setText(comment.getText());
+        return dto;
     }
 }

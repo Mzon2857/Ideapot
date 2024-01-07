@@ -21,25 +21,47 @@ interface LikeDTO {
   imageId: number;
 }
 
+interface User {
+  id: number;
+  username: string;
+  picture: string;
+}
+
+interface Comment {
+  id: number;
+  user: User;
+  text: string;
+}
+
+interface CommentDTO {
+  user: User;
+  text: string;
+}
+
 const ImageDetail: React.FC = () => {
   let { imageId } = useParams();
   const [image, setImage] = useState<ImageData | null>(null);
   const [loading, setLoading] = useState(true);
+
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState<string>("");
+
   const [userId, setUserId] = useState(0);
-  const {user} = useAuth0();
+  const { user } = useAuth0();
 
   const authAxios = useAuthAxios();
 
   const handleLike = async () => {
     try {
-      if (liked == false){
+      if (liked == false) {
         const likeRequest: LikeDTO = {
           userId: userId,
           imageId: Number(imageId),
         };
-        console.log(likeRequest)
+        console.log(likeRequest);
         await authAxios.post(`/images/${imageId}/like`, likeRequest);
         setLiked(true);
         setLikesCount((prevCount) => prevCount + 1);
@@ -51,7 +73,7 @@ const ImageDetail: React.FC = () => {
 
   const handleUnlike = async () => {
     try {
-      if (liked == true){
+      if (liked == true) {
         const likeRequest: LikeDTO = {
           userId: userId,
           imageId: Number(imageId),
@@ -65,16 +87,35 @@ const ImageDetail: React.FC = () => {
     }
   };
 
+  const handleAddComment = async () => {
+    try {
+      const commentRequest: CommentDTO = {
+        user: { id: userId, username: user.name, picture: user.picture },
+        text: newComment,
+      };
+      await authAxios.post(`/images/${imageId}/comment`, commentRequest);
+      setComments([...comments, { id: Date.now(), user: user, text: newComment }]);
+      setNewComment("");
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchImageDetails = async () => {
       if (!user || !user.email || !imageId) return;
-  
+
       try {
-        const userResponse = await authAxios.get(`/users/by-email/${user.email}`);
+        const userResponse = await authAxios.get(
+          `/users/by-email/${user.email}`
+        );
         const fetchedUserId = userResponse.data;
         setUserId(fetchedUserId);
-  
-        const imageResponse = await authAxios.get(`/images/get-image/${imageId}`, { params: { userId: fetchedUserId } });
+
+        const imageResponse = await authAxios.get(
+          `/images/get-image/${imageId}`,
+          { params: { userId: fetchedUserId } }
+        );
         setImage(imageResponse.data);
         setLiked(imageResponse.data.userLiked);
         setLikesCount(imageResponse.data.likes || 0);
@@ -84,8 +125,18 @@ const ImageDetail: React.FC = () => {
         setLoading(false);
       }
     };
-  
+
+    const fetchComments = async () => {
+      try {
+        const response = await authAxios.get(`/images/${imageId}/comments`);
+        setComments(response.data);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
     fetchImageDetails();
+    fetchComments();
   }, [user, imageId]);
 
   if (loading) {
@@ -115,6 +166,35 @@ const ImageDetail: React.FC = () => {
               <button onClick={handleLike}>Like</button>
             )}
             <span>{likesCount}</span>
+          </div>
+        </div>
+        <div className="comments-section">
+          <h2>Comments</h2>
+          {comments.map((comment) => (
+            <div key={comment.id} className="comment">
+              <div className="comment-user">
+                {comment.user ? (
+                  <>
+                    <img
+                      src={comment.user.picture}
+                      alt={comment.user.username}
+                    />
+                    <span>{comment.user.username}</span>
+                  </>
+                ) : (
+                  <span>Unknown User</span>
+                )}
+              </div>
+              <p>{comment.text}</p>
+            </div>
+          ))}
+          <div className="add-comment">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment"
+            />
+            <button onClick={handleAddComment}>Post Comment</button>
           </div>
         </div>
       </header>
