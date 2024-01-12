@@ -4,27 +4,22 @@ $border-radius : 8px;
 $speed: 0.8s; 
 
 
-.movedRight {
-    max-width: 100%;
-    height: 100%;
+.Navbar .rightSide {
     display: flex;
-    justify-content: flex-end;
-    display: flex;
+    border: 3px solid blue;
     margin-left: auto;
-    list-style: none;
-    flex: initial; 
+    flex-grow: 0; 
 }
 
-.movedRight img {
+.Navbar .rightSide  img {
     max-width: 40px;
     max-height: 40px;
 }
 
-.movedRight li {
+.Navbar .rightSide  li {
     margin-right: 15px;
-    display: inline-block;
-    margin: 0;  /* Reduces space between list items */
     padding: 3px;
+    display: inline-block;
 }
 
 .dropdown-item {
@@ -35,8 +30,8 @@ $speed: 0.8s;
 
 .icon-button {
     $buttonSize: calc(var() * 1);
-    width: calc(var($size) * 0.8);
-    height: calc(var($size) * 0.8);
+    width: calc(#{$size} * 0.8);
+    height: calc(#{$size} * 0.8);
     border-radius: 50%;
     padding: 5px;
     margin: 2px;
@@ -49,8 +44,8 @@ $speed: 0.8s;
 .icon-button.special-icon img {
     justify-content: center;
     $buttonSize: calc(var() * 1);
-    width: 50px;
-    height: 70px;
+    width: calc(#{$size} * 0.8);
+    height: calc(#{$size} * 1.2);
     border-radius: 50%;
     object-fit: cover; 
 }

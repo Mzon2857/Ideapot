@@ -1,63 +1,58 @@
-$grey  : #7b7676;
-$white : #ffffff;
-$navcolor : rgb(255, 255, 255);
+$grey: #c7c7c7;
+$white: #ffffff;
+$navcolor: rgb(255, 255, 255); // Can replace with $white if they are intended to be the same
 // Define basic colors and fonts
-$primary-color: #6522d0; // Black color for text
-$highlight-color: #d3d3d3; // Grey for highlights
-$background-color: #fff; // White background
-$font-color: $primary-color; // Use primary color for font
+$primary-color: #6522d0;
+$highlight-color: #d3d3d3;
+$background-color: #fff;
+$font-color: $primary-color;
 $font-family: Arial, sans-serif;
 
 .Navbar {
+    border: 3px solid black;
     display: flex;
     position: fixed;
     top: 0;
     width: 100%;
-    display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     background: $navcolor;
-    margin-left: auto;
-}   
-ul{
-    display: flex;
-    flex-grow: 0;
-    flex-shrink: 0;
-    text-align: left;
-    padding: 0;
-    margin: 0;  
 }
-.search-box {
+
+
+.Navbar .leftSide {
     display: flex;
     flex-grow: 1;
-    align-items: center;
-    padding: 7px 20px;
-    border-radius: 50px;
-    background: lightgray;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
-.search-box img {
-    max-height: 25px; 
+
+.Navbar .leftSide .search-box {
+    width: 300%; // Example fixed width
+    max-width: 600px; // Maximum width
+    border: 5px solid $grey;
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    border-radius: 35px;
+    background: $grey;
+}
+
+.Navbar .leftSide .search-box img {
+    max-height: 25px;
     max-width: 25px;
 }
 
-.search-box input {
-    flex-grow: 1;
+.Navbar .leftSide .search-box input {
     padding: 6px;
     background: transparent;
     border: 0;
     outline: 0;
-    font-size: 13px;
-    /* Other styling as needed */
-}
-ul li {
-    display: flex;
-    align-items: center; 
-    margin: 1px;
-    font-size: 18px;
-    cursor: pointer;
+    font-size: 15px;
 }
 
-button {
+.Navbar button {
     font-size: 1rem;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
@@ -68,8 +63,8 @@ button {
     cursor: pointer;
     outline: none;
     transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: darken($highlight-color, 15%);
+
+    &:hover, &:focus {
+        background-color: darken($highlight-color, 15%);
     }
-  }
+}
