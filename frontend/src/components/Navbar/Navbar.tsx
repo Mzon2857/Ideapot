@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
           style={{ maxWidth: "80px", maxHeight: "100px" }}
         />
       </Link>
-      <ul>
+      <ul className="leftSide">
         <li>
           <Link to="/">
             <button>
