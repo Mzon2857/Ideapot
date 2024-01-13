@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
-import logoimg from "../../ithenaLogo.png";
-import searchimg from "../../search.png";
+import logoimg from "../../assets/ithenaLogo.png";
+import searchimg from "../../assets/search.png";
 import DropdownList from "../DropdownMenu/DropdownList.tsx";
 
 const Navbar: React.FC = () => {

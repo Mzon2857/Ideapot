@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CSSTransition } from 'react-transition-group'; 
 import "./DropdownList.scss";
-import UserProfile from "../../user.png";
-import Settings from "../../settings.png";
-import Logout from "../../log-out.png";
-import DarkmodeImage from "../../moon.png";
-import LeftChevron from "../../leftChevron.png"
-import RightChevron from "../../rightChevron.png"
+import UserProfile from "../../assets/user.png";
+import Settings from "../../assets/settings.png";
+import Logout from "../../assets/log-out.png";
+import DarkmodeImage from "../../assets/moon.png";
+import LeftChevron from "../../assets/leftChevron.png"
+import RightChevron from "../../assets/rightChevron.png"
 
 
 interface NavItemProps {
