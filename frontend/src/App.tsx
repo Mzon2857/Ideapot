@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.scss";
-import logo from "./assets/react.svg";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.tsx";
+import logo from "./assets/ithenaLogo.png"
 import UserProfile from "./pages/UserProfile/UserProfile";
 import PostCreationTool from "./pages/PostCreationTool/PostCreationTool";
 import Discover from "./pages/Discover/Discover";
@@ -71,10 +71,8 @@ const App: React.FC = () => {
     return (
       <div className="App">
         <header className="App-header">
+          <p><i>Ideapot</i></p>
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            <code>React</code>
-          </p>
           <button onClick={() => loginWithRedirect()}>Log In</button>
         </header>
       </div>

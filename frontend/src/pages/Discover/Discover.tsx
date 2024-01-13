@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./Discover.scss"
 import ImageGrid from "../../components/ImageGrid/ImageGrid";
 import { useAuthAxios } from "../../config/axiosConfig";
 
@@ -30,7 +31,8 @@ function Discover() {
 
   return (
     <div className="discover-container">
-      <ImageGrid images={images} />
+      <p>Welcome to Ideapot</p>
+      {/* <ImageGrid images={images} /> */}
     </div>
   );
 }
