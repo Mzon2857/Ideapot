@@ -31,8 +31,7 @@ function Discover() {
 
   return (
     <div className="discover-container">
-      <p>Welcome to Ideapot</p>
-      {/* <ImageGrid images={images} /> */}
+      <ImageGrid images={images} />
     </div>
   );
 }
