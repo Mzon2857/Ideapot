@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./postCreationTool.scss";
 import { useAuthAxios } from "../../config/axiosConfig";
+import uploadIcon from "../../assets/UploadIcon.png";
 
 interface IFileChangeEvent {
   target: { files: FileList };
@@ -105,12 +106,23 @@ const PostCreationTool: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Post Creation Tool</h1>
         <div className="content-wrapper">
-          <div className="upload-box">
-            {imagePreview && <img src={imagePreview} alt="Preview" />}
-            {!imagePreview && <div className="placeholder">Upload image</div>}
-            <input id="file-upload" type="file" onChange={handleFileChange} />
+          <div className="image-section">
+            <div className="upload-box">
+              {imagePreview && <img src={imagePreview} alt="Preview" />}
+              {!imagePreview && <div className="placeholder">Upload image</div>}
+              <input id="file-upload" type="file" onChange={handleFileChange} />
+            </div>
+            <div className="prompt-input">
+              <input
+                type="text"
+                placeholder="Or create from prompt: "
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                className="text-input"
+              />
+              <img src={uploadIcon} onClick={handleGenerateImage}/>
+            </div>
           </div>
           <div className="text-inputs">
             <input
@@ -129,16 +141,6 @@ const PostCreationTool: React.FC = () => {
               maxLength={500}
             />
           </div>
-        </div>
-        <div className="prompt-input">
-          <input
-            type="text"
-            placeholder="Enter prompt for image generation"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            className="text-input"
-          />
-          <button onClick={handleGenerateImage}>Generate Image</button>
         </div>
         {generatedImageUrl && <img src={generatedImageUrl} alt="Generated" />}
         <button onClick={handleUpload}>Publish</button>
