@@ -1,23 +1,36 @@
 .discover-container {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 50px;
-    background:#ccddcc;  
-    text-align:center; 
-    vertical-align: middle;
-    display: table-cell;   
-} 
-
-.discover-container
-{
-  width:1920px;
-  height:850px;  
-  display: table; 
-  background: #cc3f3f;;  
+  width: 100%;
+  height: calc(100vh - 60px); 
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 50px;
+  text-align: center;
 }
 
-
-.discover-container p{
+.discover-container heading p{
   text-align:center; 
   vertical-align: middle;
   display: table-cell;   
+}
+
+.discover-container video {
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - 60px); 
+  object-fit: cover; /* This will ensure that your video covers the entire container */
+}
+
+
+.heading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  z-index: 10; 
+
+  color: white;
+  text-align: center;
+  font-size: 24px;
 }
