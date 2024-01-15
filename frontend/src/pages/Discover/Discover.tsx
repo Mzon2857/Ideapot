@@ -1,45 +1,26 @@
 import { useEffect, useState } from "react";
-import "./Discover.scss"
-import ImageGrid from "../../components/ImageGrid/ImageGrid";
-import { useAuthAxios } from "../../config/axiosConfig";
-import Visuals from "../../assets/Visuals.mp4"
+import "./Discover.scss";
+import Visuals from "../../assets/Visuals.mp4";
 import { Link } from "react-router-dom";
-
-interface Image {
-  id: number;
-  s3ImageUrl: string;
-  title: string;
-  description: string;
-}
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Discover() {
-  const [images, setImages] = useState<Image[]>([]);
-
-  const authAxios = useAuthAxios();
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await authAxios.get(
-          '/images/get-feed'
-        );
-        setImages(response.data);
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      }
-    };
-    fetchImages();
-  }, []);
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <div className="discover-container">
-      <video src={Visuals} width="100%" height="calc(100vh - 60px)" autoPlay muted loop />
+      <video
+        src={Visuals}
+        width="100%"
+        height="calc(100vh - 60px)"
+        autoPlay
+        muted
+        loop
+      />
       <div className="heading">
-      <p>Welcome to Ideapot</p>
-      <Link to="/feed">
-      <button>Get inspired...</button>
-      </Link>
-      </div>  
+        <p>Welcome to Ideapot</p>
+        <button onClick={() => loginWithRedirect()}>Get inspired...</button>
+      </div>
     </div>
   );
 }

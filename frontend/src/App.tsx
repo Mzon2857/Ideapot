@@ -70,13 +70,7 @@ const App: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="App">
-        <header className="App-header">
-          <p><i>Ideapot</i></p>
-          <img src={logo} className="App-logo" alt="logo" />
-          <button onClick={() => loginWithRedirect()}>Log In</button>
-        </header>
-      </div>
+      <Discover/>
     );
   }
 
@@ -85,7 +79,7 @@ const App: React.FC = () => {
       <Navbar />
       <Routes>
         <Route path="/feed" element={<Feed/>} />
-        <Route path="/" element={<Discover />} />
+        <Route path="/" element={<Feed />} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
         <Route path="/:username" element={<UserProfile />} />
         <Route path="/discover" element={<Discover />} />

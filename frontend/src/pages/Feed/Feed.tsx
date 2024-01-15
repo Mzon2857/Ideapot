@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./feed.scss";
 import ImageGrid from "../../components/ImageGrid/ImageGrid";
 import { useAuthAxios } from "../../config/axiosConfig";
 
