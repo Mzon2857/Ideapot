@@ -39,8 +39,7 @@ function Discover() {
       <Link to="/feed">
       <button>Get inspired...</button>
       </Link>
-      </div>
-      {/* <ImageGrid images={images} /> */}
+      </div>  
     </div>
   );
 }
