@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./Discover.scss"
 import ImageGrid from "../../components/ImageGrid/ImageGrid";
 import { useAuthAxios } from "../../config/axiosConfig";
+import Visuals from "../../assets/Visuals.mp4"
+import { Link } from "react-router-dom";
 
 interface Image {
   id: number;
@@ -31,7 +33,13 @@ function Discover() {
 
   return (
     <div className="discover-container">
-      <ImageGrid images={images} />
+      <video src={Visuals} width="100%" height="calc(100vh - 60px)" autoPlay muted loop />
+      <div className="heading">
+      <p>Welcome to Ideapot</p>
+      <Link to="/feed">
+      <button>Get inspired...</button>
+      </Link>
+      </div>  
     </div>
   );
 }

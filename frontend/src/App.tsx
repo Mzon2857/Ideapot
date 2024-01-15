@@ -11,6 +11,7 @@ import Notifications from "./pages/Notifications/Notifications";
 import Messages from "./pages/Messages/Messages";
 import ImageDetail from "./pages/ImageDetail/ImageDetail.tsx";
 import Navbar from "./components/Navbar/Navbar.tsx";
+import Feed from "./pages/Feed/Feed.tsx"
 import axios from "axios";
 
 const App: React.FC = () => {
@@ -83,6 +84,7 @@ const App: React.FC = () => {
     <Router>
       <Navbar />
       <Routes>
+        <Route path="/feed" element={<Feed/>} />
         <Route path="/" element={<Discover />} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
         <Route path="/:username" element={<UserProfile />} />
