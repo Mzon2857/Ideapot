@@ -4,6 +4,7 @@ import com.photo.DTO.CommentDTO;
 import com.photo.DTO.ImageDTO;
 import com.photo.DTO.LikeDTO;
 import com.photo.model.Image;
+import com.photo.service.DallEService;
 import com.photo.service.ImageService;
 import com.photo.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,12 +24,15 @@ public class ImageController {
 
     private final ImageService imageService;
     private final S3Service s3Service;
+    private final DallEService dallEService;
 
     @Autowired
-    public ImageController(ImageService imageService, S3Service s3Service) {
+    public ImageController(ImageService imageService, S3Service s3Service, DallEService dallEService) {
         this.imageService = imageService;
         this.s3Service = s3Service;
+        this.dallEService = dallEService;
     }
+
 
     @PostMapping("/{userId}/upload")
     @ResponseStatus(HttpStatus.CREATED)
@@ -97,5 +102,14 @@ public class ImageController {
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId) {
         imageService.deleteComment(commentId);
         return ResponseEntity.ok("Comment deleted successfully");
+    }
+
+
+    //dallE generation
+    @PostMapping("/generate-dalle-image")
+    public Mono<ResponseEntity<String>> generateDalleImage(@RequestParam String prompt) {
+        return dallEService.generateDallEImage(prompt)
+                .map(url -> ResponseEntity.ok().body(url))
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating image: " + e.getMessage())));
     }
 }
