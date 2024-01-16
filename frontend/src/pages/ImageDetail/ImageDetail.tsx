@@ -94,7 +94,10 @@ const ImageDetail: React.FC = () => {
         text: newComment,
       };
       await authAxios.post(`/images/${imageId}/comment`, commentRequest);
-      setComments([...comments, { id: Date.now(), user: user, text: newComment }]);
+      setComments([
+        ...comments,
+        { id: Date.now(), user: user, text: newComment },
+      ]);
       setNewComment("");
     } catch (error) {
       console.error("Error adding comment:", error);
@@ -146,55 +149,64 @@ const ImageDetail: React.FC = () => {
   return (
     <div className="ImagePage">
       <header className="ImagePage-header">
-        {image && <img src={image.s3ImageUrl} alt={image.title} />}
-        <div className="image-details">
-          <h1>{image?.title}</h1>
-          <p>{image?.description}</p>
-          {image?.posterInfo && (
-            <Link
-              to={`/${image.posterInfo.username}`}
-              className="poster-details"
-            >
-              <img src={image.posterInfo.picture} alt="Poster" />
-              {image.posterInfo.username}
-            </Link>
-          )}
-          <div className="like-button">
-            {liked ? (
-              <button onClick={handleUnlike}>Unlike</button>
-            ) : (
-              <button onClick={handleLike}>Like</button>
-            )}
-            <span>{likesCount}</span>
-          </div>
+        <div className="image">
+          {image && <img src={image.s3ImageUrl} alt={image.title} />}
         </div>
-        <div className="comments-section">
-          <h2>Comments</h2>
-          {comments.map((comment) => (
-            <div key={comment.id} className="comment">
-              <div className="comment-user">
-                {comment.user ? (
-                  <>
-                    <img
-                      src={comment.user.picture}
-                      alt={comment.user.username}
-                    />
-                    <span>{comment.user.username}</span>
-                  </>
-                ) : (
-                  <span>Unknown User</span>
-                )}
-              </div>
-              <p>{comment.text}</p>
+        <div className="details">
+          <div className="image-details">
+            <h1>{image?.title}</h1>
+            <p>{image?.description}</p>
+            {image?.posterInfo && (
+              <Link
+                to={`/${image.posterInfo.username}`}
+                className="poster-details"
+              >
+                <img src={image.posterInfo.picture} alt="Poster" />
+                {image.posterInfo.username}
+              </Link>
+            )}
+            <div className="like-button">
+              {liked ? (
+                <button onClick={handleUnlike}>Unlike</button>
+              ) : (
+                <button onClick={handleLike}>Like</button>
+              )}
+              <span>{likesCount}</span>
             </div>
-          ))}
-          <div className="add-comment">
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Add a comment"
-            />
-            <button onClick={handleAddComment}>Post Comment</button>
+          </div>
+          <h2>Comments</h2>
+          <div className="comments-section">
+            <div className="comments">
+              {comments.map((comment) => (
+                <div key={comment.id} className="comment">
+                  <Link
+                    to={`/${comment.user.username}`}
+                    className="comment-user"
+                  >
+                    {comment.user ? (
+                      <>
+                        <img
+                          src={comment.user.picture}
+                          alt={comment.user.username}
+                        />
+                        <span>{comment.user.username}</span>
+                      </>
+                    ) : (
+                      <span>Unknown User</span>
+                    )}
+                  </Link>
+                  <p>{comment.text}</p>
+                </div>
+              ))}
+            </div>
+            <div className="add-comment">
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment"
+              />
+              <button onClick={handleAddComment}>Post Comment</button>
+            </div>
           </div>
         </div>
       </header>
