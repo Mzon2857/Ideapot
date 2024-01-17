@@ -19,8 +19,12 @@ const PostCreationTool: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
-  const [lastUpdatedSource, setLastUpdatedSource] = useState<'file' | 'dalle' | null>(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
+    null
+  );
+  const [lastUpdatedSource, setLastUpdatedSource] = useState<
+    "file" | "dalle" | null
+  >(null);
   const { user } = useAuth0();
 
   const authAxios = useAuthAxios();
@@ -44,7 +48,7 @@ const PostCreationTool: React.FC = () => {
   //File upload helpers
   const handleFileChange = (event: IFileChangeEvent) => {
     setSelectedFile(event.target.files[0]);
-    setLastUpdatedSource('file');
+    setLastUpdatedSource("file");
   };
 
   const handleUpload = async () => {
@@ -52,11 +56,11 @@ const PostCreationTool: React.FC = () => {
     formData.append("title", title);
     formData.append("description", description);
 
-    if (lastUpdatedSource === 'file' && selectedFile){
+    if (lastUpdatedSource === "file" && selectedFile) {
       formData.append("file", selectedFile);
-    } else if (lastUpdatedSource === 'dalle' && generatedImageUrl){
+    } else if (lastUpdatedSource === "dalle" && generatedImageUrl) {
       formData.append("dallEUrl", generatedImageUrl);
-    } else{
+    } else {
       alert("Please select a file first!");
       return;
     }
@@ -100,7 +104,7 @@ const PostCreationTool: React.FC = () => {
         }
       );
       setGeneratedImageUrl(response.data);
-      setLastUpdatedSource('dalle');
+      setLastUpdatedSource("dalle");
     } catch (error) {
       console.error("Error generating image:", error);
       alert("Error generating image");
@@ -113,8 +117,16 @@ const PostCreationTool: React.FC = () => {
         <div className="content-wrapper">
           <div className="image-section">
             <div className="upload-box">
-              {imagePreview && <img src={imagePreview} alt="Preview" />}
-              {!imagePreview && <div className="placeholder">Upload image</div>}
+              {generatedImageUrl ? (
+                <img src={generatedImageUrl} alt="Generated" />
+              ) : (
+                <>
+                  {imagePreview && <img src={imagePreview} alt="Preview" />}
+                  {!imagePreview && (
+                    <div className="placeholder">Upload image</div>
+                  )}
+                </>
+              )}
               <input id="file-upload" type="file" onChange={handleFileChange} />
             </div>
             <div className="prompt-input">
@@ -125,7 +137,7 @@ const PostCreationTool: React.FC = () => {
                 onChange={(e) => setPrompt(e.target.value)}
                 className="text-input"
               />
-              <img src={uploadIcon} onClick={handleGenerateImage}/>
+              <img src={uploadIcon} onClick={handleGenerateImage} />
             </div>
           </div>
           <div className="text-inputs">
@@ -146,7 +158,6 @@ const PostCreationTool: React.FC = () => {
             />
           </div>
         </div>
-        {generatedImageUrl && <img src={generatedImageUrl} alt="Generated" />}
         <button onClick={handleUpload}>Publish</button>
       </header>
     </div>
