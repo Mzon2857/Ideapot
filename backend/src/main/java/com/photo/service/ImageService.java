@@ -13,11 +13,18 @@ import com.photo.repository.LikeRepository;
 import com.photo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,9 +48,14 @@ public class ImageService {
         this.commentRepository = commentRepository;
     }
 
-    public void createImage(Long userId, MultipartFile file, String title, String description) throws IOException {
-        String s3Key = "user-images/" + userId + "/" + file.getOriginalFilename();
-        s3Service.uploadFile(s3Key, file);
+    public void createImage(Long userId, MultipartFile file, String title, String description, String dallEUrl) throws IOException {
+        MultipartFile imageFile = file;
+
+        if (dallEUrl != null && !dallEUrl.isEmpty()) {
+            imageFile = downloadImageAsMultipartFile(dallEUrl);
+        }
+        String s3Key = "user-images/" + userId + "/" + imageFile.getOriginalFilename();
+        s3Service.uploadFile(s3Key, imageFile);
         String s3Url = s3Service.getFileUrl(s3Key);
 
         User user = new User();
@@ -56,6 +68,18 @@ public class ImageService {
         image.setDescription(description);
 
         imageRepository.save(image);
+    }
+
+    private MultipartFile downloadImageAsMultipartFile(String imageUrl) throws IOException {
+        URL url = new URL(imageUrl);
+        BufferedImage image = ImageIO.read(url);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image,"jpg",byteArrayOutputStream);
+        byteArrayOutputStream.flush();
+        String fileName = UUID.randomUUID().toString() + new Date().getTime() + ".jpg";
+        MultipartFile multipartFile = new MockMultipartFile(fileName,fileName,"image/jpg",byteArrayOutputStream.toByteArray());
+        byteArrayOutputStream.close();
+        return multipartFile;
     }
 
     public List<String> getImageUrlByUserId(Long userId) {

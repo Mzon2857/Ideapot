@@ -37,10 +37,11 @@ public class ImageController {
     @PostMapping("/{userId}/upload")
     @ResponseStatus(HttpStatus.CREATED)
     public String uploadImage(@PathVariable Long userId,
-                              @RequestParam("file") MultipartFile file,
+                              @RequestParam(value = "file", required = false) MultipartFile file,
                               @RequestParam("title") String title,
-                              @RequestParam("description") String description) throws IOException {
-        imageService.createImage(userId, file, title, description);
+                              @RequestParam("description") String description,
+                              @RequestParam(value = "dallEUrl", required = false) String dallEUrl) throws IOException {
+        imageService.createImage(userId, file, title, description, dallEUrl);
         return "Image uploaded successfully.";
     }
 

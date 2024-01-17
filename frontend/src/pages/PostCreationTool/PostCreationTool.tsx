@@ -19,9 +19,8 @@ const PostCreationTool: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
-    null
-  );
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+  const [lastUpdatedSource, setLastUpdatedSource] = useState<'file' | 'dalle' | null>(null);
   const { user } = useAuth0();
 
   const authAxios = useAuthAxios();
@@ -45,18 +44,22 @@ const PostCreationTool: React.FC = () => {
   //File upload helpers
   const handleFileChange = (event: IFileChangeEvent) => {
     setSelectedFile(event.target.files[0]);
+    setLastUpdatedSource('file');
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+
+    if (lastUpdatedSource === 'file' && selectedFile){
+      formData.append("file", selectedFile);
+    } else if (lastUpdatedSource === 'dalle' && generatedImageUrl){
+      formData.append("dallEUrl", generatedImageUrl);
+    } else{
       alert("Please select a file first!");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("title", title);
-    formData.append("description", description);
     try {
       const response = await authAxios.post(
         `/images/${userId}/upload`,
@@ -97,6 +100,7 @@ const PostCreationTool: React.FC = () => {
         }
       );
       setGeneratedImageUrl(response.data);
+      setLastUpdatedSource('dalle');
     } catch (error) {
       console.error("Error generating image:", error);
       alert("Error generating image");
