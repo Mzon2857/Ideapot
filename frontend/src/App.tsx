@@ -82,7 +82,6 @@ const App: React.FC = () => {
         <Route path="/" element={<Feed />} />
         <Route path="/post-creation-tool" element={<PostCreationTool />} />
         <Route path="/:username" element={<UserProfile />} />
-        <Route path="/discover" element={<Discover />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/images/:imageId" element={<ImageDetail />} />
