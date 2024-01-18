@@ -1,3 +1,12 @@
+$upload-bg: #f0f0f0; 
+$upload-border: #d0d0d0;
+$text-color: #333;
+$border-radius: 10px; 
+$box-width: 400px; 
+$box-height: 300px; 
+$text-input-width: 500px;
+$focus-color: #87CEEB;
+
 .ImagePage {
     display: flex;
     justify-content: center;
@@ -109,6 +118,23 @@
           .add-comment {
             position: relative;
             height: 100px; 
+            textarea {
+              width: 100%;
+              padding: 0.5rem;
+              border: 2px solid $upload-border; 
+              border-radius: $border-radius; 
+              font-size: 1rem;
+              font-family: inherit;
+              color: $text-color;
+              overflow: hidden;
+              resize: none;
+          
+              &:focus {
+                outline: none;
+                border-color: $focus-color;
+                box-shadow: 0 0 0 2px $focus-color;
+              }
+            }
           }
         }
       }

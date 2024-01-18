@@ -118,14 +118,7 @@ $focus-color: #87CEEB;
     flex-direction: column;
     gap: 1rem;
     width: $text-input-width;
-  
-    .text-input {
-      padding: 0.5rem;
-      border: 2px solid $upload-border;
-      border-radius: $border-radius;
-      font-size: 1rem;
-      color: $text-color;
-    }
+    
     .text-input{
         width: 100%;
         padding: 0.5rem;
