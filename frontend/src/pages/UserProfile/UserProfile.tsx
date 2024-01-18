@@ -1,8 +1,6 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./userProfile.scss";
-import axios from "axios";
 import ImageGrid from "../../components/ImageGrid/ImageGrid";
 import { useAuthAxios } from "../../config/axiosConfig";
 
@@ -38,8 +36,11 @@ const UserProfile: React.FC = () => {
         console.error("Error fetching user id", error);
       }
     };
-
-    fetchUserIdByUsername(username);
+    if (username){
+      fetchUserIdByUsername(username);
+    }else {
+      console.error("Username is undefined");
+    }
   }, []);
 
   useEffect(() => {

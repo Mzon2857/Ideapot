@@ -88,16 +88,22 @@ const ImageDetail: React.FC = () => {
   };
 
   const handleAddComment = async () => {
+    if (!user || !user.name || !user.picture) {
+      console.error("User is undefined");
+      return;
+    }
     try {
       const commentRequest: CommentDTO = {
         user: { id: userId, username: user.name, picture: user.picture },
         text: newComment,
       };
       await authAxios.post(`/images/${imageId}/comment`, commentRequest);
-      setComments([
-        ...comments,
-        { id: Date.now(), user: user, text: newComment },
-      ]);
+      const newCommentObj: Comment = {
+        id: Date.now(),
+        user: { id: userId, username: user.name, picture: user.picture },
+        text: newComment,
+      };
+      setComments([...comments, newCommentObj]);
       setNewComment("");
     } catch (error) {
       console.error("Error adding comment:", error);

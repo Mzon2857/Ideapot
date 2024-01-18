@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './imageGrid.scss'
 
@@ -9,7 +8,11 @@ interface Image {
   description: string;
 }
 
-const ImageGrid = ({ images }) => {
+interface ImageGridProps {
+  images: Image[];
+}
+
+const ImageGrid: React.FC<ImageGridProps> = ({ images }) => {
   return (
     <div className="ImageGrid-container ">
       {images.map((img, index) => (

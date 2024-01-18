@@ -14,7 +14,7 @@ function DropdownList() {
     <ul className="rightSide">
       <li>
         <Link to="/messages">
-          <DropdownItem icon={messagesimg} />
+          <DropdownItem icon={messagesimg} asListItem={false}/>
         </Link>
       </li>
       <li>
@@ -29,7 +29,7 @@ function DropdownList() {
       </li>
       <li>
         <div className="special-icon">
-          <DropdownItem icon={dropDownIcon}>
+          <DropdownItem icon={dropDownIcon} asListItem={false}>
             <DropdownMenu />
           </DropdownItem>
         </div>

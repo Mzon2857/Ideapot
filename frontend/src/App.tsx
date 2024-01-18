@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home.tsx";
-import logo from "./assets/ithenaLogo.png"
 import UserProfile from "./pages/UserProfile/UserProfile";
 import PostCreationTool from "./pages/PostCreationTool/PostCreationTool";
 import Discover from "./pages/Discover/Discover";
@@ -21,8 +19,6 @@ const App: React.FC = () => {
     isAuthenticated,
     user,
     getAccessTokenSilently,
-    loginWithRedirect,
-    logout,
   } = useAuth0();
 
   useEffect(() => {
@@ -30,11 +26,11 @@ const App: React.FC = () => {
       if (isAuthenticated && user) {
         try {
           const token = await getAccessTokenSilently({
-            audience: "testapi28588",
-            scope: "openid profile email",
+            authorizationParams:{
+              audience: import.meta.env.VITE_PUBLIC_AUTH0_AUDIENCE,
+              scope: import.meta.env.VITE_AUTH0_SCOPE,
+            }
           });
-
-          console.log("Token:", token);
 
           const response = await axios.post(
             "http://localhost:8080/api/private/users/create",

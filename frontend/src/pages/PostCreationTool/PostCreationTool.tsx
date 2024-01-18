@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./postCreationTool.scss";
 import { useAuthAxios } from "../../config/axiosConfig";
 import uploadIcon from "../../assets/UploadIcon.png";
-
-interface IFileChangeEvent {
-  target: { files: FileList };
-}
 
 interface ITextChangeEvent {
   target: { value: string };
@@ -46,9 +41,11 @@ const PostCreationTool: React.FC = () => {
   }, [user]);
 
   //File upload helpers
-  const handleFileChange = (event: IFileChangeEvent) => {
-    setSelectedFile(event.target.files[0]);
-    setLastUpdatedSource("file");
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+      setLastUpdatedSource("file");
+    }
   };
 
   const handleUpload = async () => {

@@ -22,7 +22,11 @@ function DropdownMenu() {
   const [activeMenu, setActiveMenu] = useState("main"); // Or 'settings'
 
   const handleLogout = () => {
-    logout({ returnTo: window.location.origin });
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   };
 
   function DropdownItem(props: NavItemProps) {
@@ -32,11 +36,11 @@ function DropdownMenu() {
       }
     };
     return (
-      <a href="#" className="menu-item" onClick={handleClick}>
+      <div className="menu-item" onClick={handleClick}>
         <span className="icon-button">{props.leftIcon}</span>
         {props.children}
         <span className="icon-right">{props.rightIcon}</span>
-      </a>
+      </div>
     );
   }
 
@@ -60,10 +64,7 @@ function DropdownMenu() {
             <Link to="/settings">Options</Link>
           </DropdownItem>
           <div onClick={handleLogout}>
-            <DropdownItem
-              leftIcon={<img src={Logout} alt="Log Out" />}
-              onClick={handleLogout}
-            >
+            <DropdownItem leftIcon={<img src={Logout} alt="Log Out" />}>
               Logout
             </DropdownItem>
           </div>
