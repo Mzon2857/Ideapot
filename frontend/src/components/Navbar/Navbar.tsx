@@ -1,11 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Navbar.scss";
 import logoimg from "../../assets/ithenaLogo.png";
 import searchimg from "../../assets/search.png";
 import DropdownList from "../DropdownMenu/DropdownList.tsx";
 
 const Navbar: React.FC = () => {
+
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
   return (
     <nav className="Navbar">
@@ -20,14 +23,16 @@ const Navbar: React.FC = () => {
       <ul className="leftSide">
         <li>
           <Link to="/">
-            <button>
+            <button style={isActive('/') ? { backgroundColor: 'black', color: 'white' } : {}}>
               <p>Home</p>
             </button>
           </Link>
         </li>
         <li>
           <Link to="/post-creation-tool">
-            <button>Create</button>
+            <button style={isActive('/post-creation-tool') ? { backgroundColor: 'black', color: 'white' } : {}}>
+              Create
+            </button>
           </Link>
         </li>
         <li>

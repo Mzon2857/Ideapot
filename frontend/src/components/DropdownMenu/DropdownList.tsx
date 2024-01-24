@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import messagesimg from "../../assets/envelope.png";
-import bellimg from "../../assets/bell.png";
+import messagesimg from "../../assets/MESSAGE.png";
+import bellimg from "../../assets/NOTIFICATION.png";
 import dropDownIcon from "../../assets/downArrow.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./DropdownList.scss";

@@ -2,7 +2,7 @@ $grey: #c7c7c7;
 $white: #ffffff;
 $navcolor: rgb(255, 255, 255); // Can replace with $white if they are intended to be the same
 // Define basic colors and fonts
-$primary-color: #6522d0;
+$primary-color: #000000;
 $highlight-color: #d3d3d3;
 $background-color: #fff;
 $font-color: $primary-color;
@@ -51,19 +51,22 @@ $font-family: Arial, sans-serif;
     font-size: 15px;
 }
 
+.active-button {
+    background-color: black;
+    color: white;
+  }
+
 .Navbar button {
     font-size: 1rem;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
-    background-color: $highlight-color;
+    background-color: $background-color;
     color: $font-color;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     outline: none;
     transition: background-color 0.3s ease;
-
-    &:hover, &:focus {
-        background-color: darken($highlight-color, 15%);
-    }
 }
+
+
