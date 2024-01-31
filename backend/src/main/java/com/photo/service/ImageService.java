@@ -11,6 +11,7 @@ import com.photo.repository.CommentRepository;
 import com.photo.repository.ImageRepository;
 import com.photo.repository.LikeRepository;
 import com.photo.repository.UserRepository;
+import com.photo.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -22,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +51,8 @@ public class ImageService {
     }
 
     public void createImage(Long userId, MultipartFile file, String title, String description, String dallEUrl) throws IOException {
+        userService.validateUser(userId);
+
         MultipartFile imageFile = file;
 
         if (dallEUrl != null && !dallEUrl.isEmpty()) {
@@ -116,7 +120,8 @@ public class ImageService {
         return dto;
     }
 
-    public void likeImage(Long userId, Long imageId) {
+    public void likeImage(Long userId, Long imageId) throws AccessDeniedException {
+        userService.validateUser(userId);
         User user = userRepository.findById(userId).orElseThrow();
         Image image = imageRepository.findById(imageId).orElseThrow();
 
@@ -130,7 +135,8 @@ public class ImageService {
         likeRepository.save(like);
     }
 
-    public void unlikeImage(Long userId, Long imageId){
+    public void unlikeImage(Long userId, Long imageId) throws AccessDeniedException {
+        userService.validateUser(userId);
         Image image = imageRepository.findById(imageId).orElseThrow();
 
         image.setLikesCount(image.getLikesCount() - 1);
@@ -144,8 +150,9 @@ public class ImageService {
         return likeRepository.existsByUserIdAndImageId(userId, imageId);
     }
 
-    public void addCommentToImage(CommentDTO commentDTO, Long imageId) {
+    public void addCommentToImage(CommentDTO commentDTO, Long imageId) throws AccessDeniedException {
         Long userId = commentDTO.getUser().getId();
+        userService.validateUser(userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Image image = imageRepository.findById(imageId)

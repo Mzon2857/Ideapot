@@ -27,11 +27,10 @@ public class SecurityConfig {
             .authorizeHttpRequests((authz) -> authz
                     .requestMatchers("/api/public/**").permitAll()
                     .requestMatchers("/api/private/**").authenticated()
-                    .anyRequest().permitAll()
             )
+
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())))
             .cors(customizer -> customizer.configurationSource(corsConfigurationSource()));
-
 
         return http.build();
     }

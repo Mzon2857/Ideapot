@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -68,13 +69,13 @@ public class ImageController {
 
     //Likes
     @PostMapping("/{imageId}/like")
-    public ResponseEntity<?> likeImage(@RequestBody LikeDTO likeRequest) {
+    public ResponseEntity<?> likeImage(@RequestBody LikeDTO likeRequest) throws AccessDeniedException {
         imageService.likeImage(likeRequest.getUserId(), likeRequest.getImageId());
         return ResponseEntity.ok("Image liked successfully");
     }
 
     @PostMapping("/{imageId}/unlike")
-    public ResponseEntity<?> unlikeImage(@RequestBody LikeDTO likeRequest) {
+    public ResponseEntity<?> unlikeImage(@RequestBody LikeDTO likeRequest) throws AccessDeniedException {
         imageService.unlikeImage(likeRequest.getUserId(), likeRequest.getImageId());
         return ResponseEntity.ok("Image unliked successfully");
     }
@@ -88,7 +89,7 @@ public class ImageController {
     //handling Comments
     @PostMapping("/{imageId}/comment")
     public ResponseEntity<?> addComment(@PathVariable Long imageId,
-                                        @RequestBody CommentDTO commentRequest) {
+                                        @RequestBody CommentDTO commentRequest) throws AccessDeniedException {
         imageService.addCommentToImage(commentRequest, imageId);
         return ResponseEntity.ok("Comment added successfully");
     }

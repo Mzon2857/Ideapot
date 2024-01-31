@@ -4,10 +4,13 @@ import com.photo.DTO.UserDTO;
 import com.photo.model.Image;
 import com.photo.model.User;
 import com.photo.repository.UserRepository;
+import com.photo.utils.SecurityUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,6 +51,20 @@ public class UserService {
                         .picture(user.getPicture())
                         .build())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+    }
+
+    public User findUserByAuth0Sub(String sub) {
+        return userRepository.findBySub(sub)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with sub: " + sub));
+    }
+
+    public void validateUser(Long expectedUserId) throws AccessDeniedException {
+        String currentAuth0Sub = SecurityUtils.getCurrentUserId();
+        User user = findUserByAuth0Sub(currentAuth0Sub);
+
+        if (!user.getId().equals(expectedUserId)) {
+            throw new AccessDeniedException("User does not have permission to perform this operation.");
+        }
     }
 
     public User updateUser(User user) {

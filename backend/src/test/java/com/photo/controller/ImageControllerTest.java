@@ -43,4 +43,5 @@ public class ImageControllerTest {
                         .param("userId", "1"))
                 .andExpect(status().isOk());
     }
+
 }
