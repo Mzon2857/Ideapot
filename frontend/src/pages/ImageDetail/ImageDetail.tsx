@@ -49,6 +49,8 @@ const ImageDetail: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState<string>("");
 
+  const [variationUrl, setVariationUrl] = useState("");
+
   const [userId, setUserId] = useState(0);
   const { user } = useAuth0();
 
@@ -84,6 +86,23 @@ const ImageDetail: React.FC = () => {
       }
     } catch (error) {
       console.error("Error unliking image: ", error);
+    }
+  };
+
+  const handleVariation = async () => {
+    if (!image) {
+      console.error("Image is undefined.");
+      return;
+    }
+    try {
+      console.log(image);
+      const response = await authAxios.post(
+        "/images/generate-variation",
+        image
+      );
+      setVariationUrl(response.data.data[0].url);
+    } catch (error) {
+      console.error("Error generating variation of image: ", error);
     }
   };
 
@@ -158,6 +177,9 @@ const ImageDetail: React.FC = () => {
         <div className="image">
           {image && <img src={image.s3ImageUrl} alt={image.title} />}
         </div>
+        <div className="variation-button">
+          <button onClick={handleVariation}>Generate Variation</button>
+        </div>
         <div className="details">
           <div className="image-details">
             <h1>{image?.title}</h1>
@@ -215,6 +237,11 @@ const ImageDetail: React.FC = () => {
             </div>
           </div>
         </div>
+        {variationUrl && (
+          <div className="image-variation">
+            <img src={variationUrl} alt="Generated Variation" />
+          </div>
+        )}
       </header>
     </div>
   );

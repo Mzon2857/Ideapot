@@ -114,4 +114,11 @@ public class ImageController {
                 .map(url -> ResponseEntity.ok().body(url))
                 .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating image: " + e.getMessage())));
     }
+
+    @PostMapping("/generate-variation")
+    public Mono<ResponseEntity<String>> generateDalleVariation(@RequestBody ImageDTO imageData) {
+        return dallEService.generateDallEVariation(imageData)
+                .map(url -> ResponseEntity.ok().body(url))
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating image: " + e.getMessage())));
+    }
 }
